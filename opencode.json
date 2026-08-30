@@ -1,0 +1,42 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["opencode-workflows"],
+  "workflow": {
+    "repoKind": "docs"
+  },
+  "agent": {
+    "build": {"disable": true},
+    "plan": {"disable": true},
+    "orchestrator": {
+      "mode": "primary",
+      "steps": 200,
+      "permission": {
+        "task": {
+          "*": "deny",
+          "harness-writer": "allow",
+          "harness-reviewer": "allow",
+          "peer-reviewer": "allow"
+        }
+      }
+    },
+    "harness-writer": {
+      "mode": "subagent",
+      "temperature": 0.3,
+      "permission": { "edit": "allow", "bash": "allow", "task": { "*": "deny" } }
+    },
+    "harness-reviewer": {
+      "mode": "subagent",
+      "temperature": 0.1,
+      "permission": { "edit": "deny", "bash": "deny" }
+    },
+    "peer-reviewer": {
+      "mode": "subagent",
+      "temperature": 0.1,
+      "permission": { "edit": "deny", "bash": "deny" }
+    }
+  },
+  "instructions": [
+    ".opencode/skills/planning-structure.SKILL.md",
+    ".opencode/skills/review-core.SKILL.md"
+  ]
+}

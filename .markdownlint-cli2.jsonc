@@ -1,0 +1,48 @@
+{
+  // markdownlint-cli2 config - tuned for the workflow template's DENSE, prose-style Markdown.
+  // Rationale: markdownlint is a STYLE linter, not a validity checker. CommonMark renders
+  // fine without the "air" these rules demand, so we silence pure-whitespace/aesthetic rules
+  // and KEEP the ones that guard actual correctness (bare URLs, fences, markers, structure).
+  // Consuming repos: copy/override per your own needs (see CONTRIBUTING.md).
+
+  "globs": [
+    "AGENTS.md",
+    "README.md",
+    "CONTRIBUTING.md",
+    "guiding-principles.md",
+    "docs/**/*.md",
+    "ktlo/**/*.md",
+    "references/**/*.md",
+    ".opencode/**/*.md",
+    "src/**/*.md"
+  ],
+  "ignores": [
+    "**/node_modules/**",
+    "**/scratch/**",
+    "scratch/**",
+    "**/*.generated.md"
+  ],
+
+  "config": {
+    "default": true,
+
+    // --- Silence: whitespace/air that affects neither rendering nor readers-of-source ---
+    "MD013": false,                       // prose/pipeline lines intentionally long
+    "MD022": { "lines_above": 1, "lines_below": 0 }, // blank ABOVE heading (kept), not below (dense)
+    "MD032": false,                       // list may hug the line above it
+    "MD007": { "indent": 2 },             // our nested sub-bullets are 2-space
+    "MD024": false,                       // repeated section headings are fine
+    "MD033": false,                       // inline HTML allowed for callouts/diagrams
+    "MD060": false,                       // table column/pipe style not policed
+    "MD058": false,                       // blanks around tables (cosmetic)
+    "MD031": false,                       // blanks around fences (cosmetic)
+
+    // --- Keep (default-on): these guard correctness / "will it render sanely" ---
+    // MD003 heading style, MD004 ul style, MD009/MD012 stray whitespace,
+    // MD014, MD018/MD023 heading spacing-above, MD027/MD028 blockquote,
+    // MD030 list spacing, MD035 hr style, MD040 fenced-code language,
+    // MD041 first-line H1, MD046 code-block style, MD047 trailing newline,
+    // MD048 code-fence style, MD051/MD052/MD053 links. (All left at default.)
+    "MD040": true
+  }
+}

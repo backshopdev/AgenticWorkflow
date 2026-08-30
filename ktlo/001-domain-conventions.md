@@ -1,0 +1,30 @@
+# KTLO: Domain Conventions
+
+This is a template KTLO item owned by the template repo. Do not edit directly in consuming repos - instead, update the template repo and pull changes, or add a project-specific override.
+
+## Template Content Placeholder
+
+### Domain Naming Conventions
+- Use PascalCase for domain entities: `UserProfile`, `OrderStatus`
+- Use camelCase for domain functions/actions: `calculateTotalPrice`, `validateOrder`
+- Prefix domain events: `DomainEvent_`, `UserCreated`, `OrderCompleted`
+
+### Directory Conventions
+- Feature modules live under `src/features/{feature-name}/`
+- Shared utilities under `src/utils/`
+- Domain models under `src/models/`
+
+### Naming Anti-Patterns to Avoid
+- Generic names without context: `utils`, `helpers`, `common`
+- Mixed casing within same logical group
+- Names that conflict with framework conventions
+
+### How to Add Project-Specific Conventions
+1. Create `ktlo/ktlo-item-{short-hash}.md` marked `[project]`
+2. Override or extend the template conventions as needed
+3. Reference both template and project items in `KTLO/index.md`
+
+### When to Pull Template Updates
+- When template repo updates `001-domain-conventions.md`
+- Review changes for relevance to your project
+- Manually merge or replace as appropriate

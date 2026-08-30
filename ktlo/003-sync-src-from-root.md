@@ -1,0 +1,27 @@
+# KTLO 003: Keep `src/` copies in sync with root (source-of-truth)
+
+Type: `[template]` maintenance item — owned by the template repo.
+
+## Why this exists
+Some files are **source-of-truth**: authored once at the repo root and copied verbatim into `src/` so consuming repos get identical content. The prime example is the commit convention skill:
+- `.opencode/skills/commit-convention.SKILL.md` (canonical)
+- `src/.opencode/skills/commit-convention.SKILL.md` (must be a byte-for-byte copy)
+
+This is intentionally **not DRY** — we accept two copies so the template stays self-contained and copy-friendly. The cost is drift risk, which this item tracks.
+
+## The standing task
+When any source-of-truth file under root `.opencode/skills/` changes:
+1. Re-copy it into `src/.opencode/skills/` so the two are byte-identical.
+2. Note the change in the file's history/commit (a `chore` commit is fine).
+
+## Candidates for a future automation (defer)
+- A tiny "sync" script: copy the canonical skills into `src/` and fail if `diff` shows drift (runnable as a CI/pre-commit check).
+- If drift ever becomes painful, revisit whether `src/` should symlink to root instead (Windows dev note: symlinks/junctions behave differently — a script is safer and more portable for now).
+
+## Status
+- [ ] Defer automation — manual re-copy is acceptable for the current file count
+- [ ] Revisit if source-of-truth copies grow beyond a handful
+
+## Scope note (so we don't over-sync)
+- **Copy from root → `src/`:** the source-of-truth skills (commit-convention, planning-structure, review-core).
+- **Do NOT copy to `src/`:** the agent definitions. Only the root repo's `.opencode/agents/` holds them; consuming repos define their **own** agents (orchestrator excepted, which carries forward). Keeping agents out of `src/` is intentional.

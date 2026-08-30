@@ -1,0 +1,40 @@
+# Agent scratch space: ignore contents but keep the folder in-repo
+scratch/*
+**/scratch/*
+!scratch/.gitkeep
+!**/scratch/.gitkeep
+
+# Dependency caches
+node_modules/
+.yarn/
+
+# Environment variables (never commit)
+.env
+.settings.local
+
+# OpenCode session state
+.opencode/runtime-state/
+
+# Build output
+dist/
+build/
+
+# KTLO: template items are authored & committed (ktlo/00X, index.md).
+# Only genuinely-generated per-session KTLO scratch stays ignored.
+ktlo/scratch/
+
+# Workflow state (generated per session)
+WORKFLOW_STATE.md
+
+# OpenCode cache
+.opencode/cache/
+
+# OpenCode plugin runtime state (workflows.db + WAL/SHM) — machine-local, never commit
+.opencode/data/
+
+# Editor/IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
