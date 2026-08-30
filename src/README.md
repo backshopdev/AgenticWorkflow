@@ -5,9 +5,10 @@ A multi-agent workflow for OpenCode that guides AI agents through structured pla
 ## Quick Start
 1. `opencode` - select `orchestrator`
 2. Describe your goal
-3. The orchestrator routes through the pipeline: Harness Writer → (harness + peer reviewers) → commit gate
+3. The orchestrator routes through document-author → composed review-agent sessions → commit gate
 4. Check `~/docs/` for artifacts at each stage
-5. Final result when both review lanes approve and you sign off on the commit
+5. Final result when every required perspective returns a non-`BLOCKED` packet,
+   accepted findings are resolved, and you sign off
 
 ## Directory Overview
 - `~/docs/` - decisions, specs, plans (durable artifacts; index.md per dir)
@@ -23,9 +24,10 @@ A multi-agent workflow for OpenCode that guides AI agents through structured pla
 ```text
 User Request
   → @orchestrator (plan; Gate 1 sign-off)
-  → @harness-writer (execute + run repo lint/structure → completion packet)
-  → @harness-reviewer + @peer-reviewer (parallel, isolated, scoped to changed files)
+  → @document-author (execute + objective checks → completion packet)
+  → @review-agent sessions (parallel; peer + domain [+ security])
   → orchestrator presents findings → human triages (may dismiss)
-  → Gate 2: human + lanes approve → commit (message approved by human)
-        (any "request changes" → back to harness-writer)
+  → Gate 2: all perspectives non-BLOCKED + accepted findings resolved
+  → commit (message approved in chat; exact command confirmed once in OpenCode)
+        (accepted changes → back to document-author)
 ```

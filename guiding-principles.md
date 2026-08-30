@@ -18,22 +18,34 @@ GP03: Human in loop - orchestrator is entry point, yields after each gate
   [Source: Operator working principle]
 - No stage advances without passing; failed gates loop back with specific feedback
 - Human yields after each gate; orchestrator resumes session at completion
-  - Operationalized: pipeline form `@orchestrator` → `@harness-writer` → (review lanes) → human/lanes approve
+  - Operationalized: pipeline form `@orchestrator` → `@document-author` → composed review sessions → human triage
 - Human never bypasses gates; agent enforces gate discipline
 
 GP04: Independent parallel review + human triage
-  [Source: Operator working principle (human + agent = better whole)]
-- Review runs as two independent specialist lanes — `harness-reviewer` (agentic-tuning lens) + `peer-reviewer` (general correctness lens) — spawned in parallel, each in its own isolated context
-- Lane diversity comes from *role/lens*, not from pinning different models
+  [Basis: human/project premise (human + agent = better whole); not an externally sourced evidence claim]
+- Project implication: use independent review and authoritative human triage;
+  this is an operational design decision derived from the premise, not a claim
+  established by the sources listed in `references/`
+- Review runs as one or more independent `review-agent` sessions in parallel;
+  diversity comes from assigned domain and lens skills, not pinned models
+- Every session loads `peer` plus a domain skill; risk-sensitive work adds `security`
 - Scope is disciplined to the session's changed files + how they intersect the repo; findings are anchored, not blanket audits
 - The orchestrator presents findings to the human, who **triages and may dismiss any** — findings are inputs, not verdicts
-- Operationalized: orchestrator spawns `@harness-reviewer` + `@peer-reviewer` → consolidates packets → human triages → changes return to the developing agent (harness-writer), not to the plan
+- Operationalized: orchestrator composes perspectives, preserves provenance,
+  reports substantive conflicts as debates, and returns accepted changes to
+  `document-author` without reopening the approved plan
 
 GP05: Socratic interview surfaces assumptions before generation
-  [Source: Operator working principle (human + agent = better whole)]
-- Agents surface unidentified assumptions, unconsidered use cases, side effects
+  [Basis: human/project premise (human + agent = better whole); not an externally sourced evidence claim]
+- Project implication: use Socratic interviewing to expose assumptions before
+  generation; this is an operational design decision derived from the premise,
+  not a claim established by the sources listed in `references/`
+- The orchestrator surfaces unidentified assumptions, unconsidered use cases,
+  and side effects through human-facing Socratic interviewing
 - Explicit opinion requests open dialog, don't just state opinion
-- Operationalized: the human-facing agents (orchestrator, review lanes) use a Socratic interview protocol
+- Operationalized: the orchestrator alone uses the human-facing Socratic
+  interview protocol; independent, read-only review-agent sessions report
+  assumptions and findings to the orchestrator and never interview the human
 - Opening question: "Could you tell me: what's your primary objective...?"
 - When user asks "what do you think?" → agent opens dialog, doesn't just give opinion
 
@@ -49,5 +61,5 @@ GP07: Tooling enforces the checkable; prose is for the judgment-based
   [Source: alexop.dev "Stop Bloating Your CLAUDE.md" (backpressure) + AI Hero "Complete Guide to AGENTS.md" (instruction budget)]
 - If a linter/build can verify a rule, encode it in the tool, not in prose instructions (saves the instruction budget + removes ambiguity)
 - Prose is reserved for judgment a tool can't make (intent, fit, harness tuning)
-- Operationalized: `markdownlint-cli2` enforces Markdown structure (see `docs/decisions/0001-markdownlint-via-npx.md`); `AGENTS.md` states the *trigger*, the config holds the *rules*; the harness-writer runs the check and reports `verify-status`
+- Operationalized: `markdownlint-cli2` enforces Markdown structure (see `docs/decisions/0001-markdownlint-via-npx.md`); `AGENTS.md` states the *trigger*, the config holds the *rules*; the document-author runs the check and reports `verify-status`
 - Corollary (drives link discipline): docs should be *navigable* (predictable relative index links) so agents reliably reach the on-demand detail files this principle pushes prose into

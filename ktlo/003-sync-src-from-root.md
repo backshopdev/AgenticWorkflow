@@ -4,8 +4,8 @@ Type: `[template]` maintenance item — owned by the template repo.
 
 ## Why this exists
 Some files are **source-of-truth**: authored once at the repo root and copied verbatim into `src/` so consuming repos get identical content. The prime example is the commit convention skill:
-- `.opencode/skills/commit-convention.SKILL.md` (canonical)
-- `src/.opencode/skills/commit-convention.SKILL.md` (must be a byte-for-byte copy)
+- `.opencode/skills/commit-convention/SKILL.md` (canonical)
+- `src/.opencode/skills/commit-convention/SKILL.md` (byte-for-byte copy)
 
 This is intentionally **not DRY** — we accept two copies so the template stays self-contained and copy-friendly. The cost is drift risk, which this item tracks.
 
@@ -23,5 +23,6 @@ When any source-of-truth file under root `.opencode/skills/` changes:
 - [ ] Revisit if source-of-truth copies grow beyond a handful
 
 ## Scope note (so we don't over-sync)
-- **Copy from root → `src/`:** the source-of-truth skills (commit-convention, planning-structure, review-core).
+- **Copy from root → `src/`:** all source-of-truth skills (process skills plus
+  `harness`, `literature-note`, `opencode-configuration`, `peer`, and `security`).
 - **Do NOT copy to `src/`:** the agent definitions. Only the root repo's `.opencode/agents/` holds them; consuming repos define their **own** agents (orchestrator excepted, which carries forward). Keeping agents out of `src/` is intentional.

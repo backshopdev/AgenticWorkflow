@@ -6,7 +6,7 @@
 - **Link**: <https://alexop.dev/posts/stop-bloating-your-claude-md-progressive-disclosure-ai-coding-tools/>
 - **Published**: 2026-01-18
 - **Status**: retrieved 2026-08-29 (full text)
-- **Informs principles**: GP01, GP02, GP03, GP05, GP07
+- **Informs principles**: GP01, GP02, GP07
 
 ## Key points captured
 - **Context is just an array of tokens**; no hidden memory. Statelessness is a design constraint to work *with*, not fight.

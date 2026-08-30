@@ -1,42 +1,147 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-workflows"],
-  "workflow": {
-    "repoKind": "docs"
-  },
+  "plugin": ["opencode-workflows@0.7.0"],
+  "default_agent": "orchestrator",
   "agent": {
-    "build": {"disable": true},
-    "plan": {"disable": true},
+    "build": { "disable": true },
+    "plan": { "disable": true },
+    "general": { "disable": true },
+    "explore": { "disable": true },
     "orchestrator": {
       "mode": "primary",
       "steps": 200,
       "permission": {
+        "*": "deny",
+        "read": {
+          "*": "allow",
+          "*.env": "deny",
+          "*.env.*": "deny"
+        },
+        "glob": "allow",
+        "grep": "ask",
+        "list": "allow",
+        "question": "allow",
         "task": {
           "*": "deny",
-          "harness-writer": "allow",
-          "harness-reviewer": "allow",
-          "peer-reviewer": "allow"
+          "document-author": "allow",
+          "review-agent": "allow"
+        },
+        "skill": {
+          "*": "deny",
+          "planning-structure": "allow",
+          "commit-convention": "allow"
         }
       }
     },
-    "harness-writer": {
+    "document-author": {
       "mode": "subagent",
       "temperature": 0.3,
-      "permission": { "edit": "allow", "bash": "allow", "task": { "*": "deny" } }
+      "permission": {
+        "*": "deny",
+        "read": {
+          "*": "allow",
+          "*.env": "deny",
+          "*.env.*": "deny"
+        },
+        "glob": "allow",
+        "grep": "ask",
+        "list": "allow",
+        "edit": "allow",
+        "bash": {
+          "*": "ask",
+          "git diff": "allow",
+          "git diff *": "allow",
+          "git status": "allow",
+          "git status *": "allow",
+          "git log": "allow",
+          "git log *": "allow",
+          "npx --yes markdownlint-cli2@0.23.2": "allow",
+          "npx --yes markdownlint-cli2@0.23.2 *": "allow",
+          "opencode debug config": "allow",
+          "opencode debug agent document-author": "allow",
+          "opencode debug agent orchestrator": "allow",
+          "opencode debug agent review-agent": "allow",
+          "opencode debug agent build": "allow",
+          "opencode debug agent plan": "allow",
+          "opencode debug agent general": "allow",
+          "opencode debug agent explore": "allow",
+          "opencode debug skill": "allow",
+          "git commit": "ask",
+          "git commit *": "ask",
+          "git push": "ask",
+          "git push *": "ask",
+          "git commit --amend": "ask",
+          "git commit --amend *": "ask",
+          "git commit * --amend": "ask",
+          "git commit * --amend *": "ask",
+          "git commit --no-verify": "deny",
+          "git commit --no-verify *": "deny",
+          "git commit * --no-verify": "deny",
+          "git commit * --no-verify *": "deny",
+          "git commit -n": "deny",
+          "git commit -n *": "deny",
+          "git commit * -n": "deny",
+          "git commit * -n *": "deny",
+          "git -c * commit": "deny",
+          "git -c * commit *": "deny",
+          "git push --force*": "deny",
+          "git push * --force*": "deny",
+          "git push -f": "deny",
+          "git push -f *": "deny",
+          "git push * -f": "deny",
+          "git push * -f *": "deny",
+          "git push +*": "deny",
+          "git push * +*": "deny",
+          "git push --no-verify": "deny",
+          "git push --no-verify *": "deny",
+          "git push * --no-verify": "deny",
+          "git push * --no-verify *": "deny",
+          "git push --mirror": "deny",
+          "git push --mirror *": "deny",
+          "git push * --mirror": "deny",
+          "git push * --mirror *": "deny"
+        },
+        "webfetch": "ask",
+        "websearch": "allow",
+        "task": "deny",
+        "skill": {
+          "*": "deny",
+          "harness": "allow",
+          "customize-opencode": "allow",
+          "literature-note": "allow",
+          "opencode-configuration": "allow",
+          "planning-structure": "allow",
+          "commit-convention": "allow"
+        }
+      }
     },
-    "harness-reviewer": {
+    "review-agent": {
       "mode": "subagent",
       "temperature": 0.1,
-      "permission": { "edit": "deny", "bash": "deny" }
-    },
-    "peer-reviewer": {
-      "mode": "subagent",
-      "temperature": 0.1,
-      "permission": { "edit": "deny", "bash": "deny" }
+      "permission": {
+        "*": "deny",
+        "read": {
+          "*": "allow",
+          "*.env": "deny",
+          "*.env.*": "deny"
+        },
+        "glob": "allow",
+        "grep": "ask",
+        "list": "allow",
+        "edit": "deny",
+        "bash": "deny",
+        "task": "deny",
+        "webfetch": "ask",
+        "skill": {
+          "*": "deny",
+          "peer": "allow",
+          "security": "allow",
+          "harness": "allow",
+          "customize-opencode": "allow",
+          "literature-note": "allow",
+          "opencode-configuration": "allow"
+        }
+      }
     }
-  },
-  "instructions": [
-    ".opencode/skills/planning-structure.SKILL.md",
-    ".opencode/skills/review-core.SKILL.md"
-  ]
+  }
 }

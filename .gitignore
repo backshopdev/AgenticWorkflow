@@ -8,8 +8,12 @@ scratch/*
 node_modules/
 .yarn/
 
-# Environment variables (never commit)
+# Environment files: read is denied; grep requires human confirmation
+# Ignore rules add traversal defense in depth; they are not path-aware tool denial
 .env
+.env.*
+**/.env
+**/.env.*
 .settings.local
 
 # OpenCode session state
