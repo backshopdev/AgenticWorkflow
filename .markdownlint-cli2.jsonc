@@ -6,20 +6,11 @@
   // Consuming repos: copy/override per your own needs (see CONTRIBUTING.md).
 
   "globs": [
-    "AGENTS.md",
-    "README.md",
-    "CONTRIBUTING.md",
-    "guiding-principles.md",
-    "docs/**/*.md",
-    "ktlo/**/*.md",
-    "references/**/*.md",
-    ".opencode/**/*.md",
-    "src/**/*.md"
+    "**/*.md"
   ],
   "ignores": [
     "**/node_modules/**",
     "**/scratch/**",
-    "scratch/**",
     "**/*.generated.md"
   ],
 
