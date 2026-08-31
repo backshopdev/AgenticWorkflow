@@ -28,7 +28,8 @@
         },
         "skill": {
           "*": "deny",
-          "commit-convention": "allow"
+          "commit-convention": "allow",
+          "planning-structure": "allow"
         }
       }
     },
@@ -94,6 +95,7 @@
           "docs-check": "allow",
           "docs-publish": "allow",
           "commit-convention": "allow",
+          "planning-structure": "allow",
           "decision-record": "allow",
           "specification": "allow",
           "implementation-plan": "allow",
