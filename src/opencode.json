@@ -1,0 +1,177 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "orchestrator",
+  "agent": {
+    "build": { "disable": true },
+    "plan": { "disable": true },
+    "general": { "disable": true },
+    "explore": { "disable": true },
+    "orchestrator": {
+      "mode": "primary",
+      "steps": 200,
+      "permission": {
+        "*": "deny",
+        "read": {
+          "*": "allow",
+          "*.env": "deny",
+          "*.env.*": "deny"
+        },
+        "glob": "allow",
+        "grep": "ask",
+        "list": "allow",
+        "question": "allow",
+        "task": {
+          "*": "deny",
+          "discovery": "allow",
+          "document-author": "allow",
+          "review": "allow"
+        },
+        "skill": {
+          "*": "deny",
+          "commit-convention": "allow"
+        }
+      }
+    },
+    "discovery": {
+      "mode": "subagent",
+      "temperature": 0.2,
+      "permission": {
+        "*": "deny",
+        "read": {
+          "*": "allow",
+          "*.env": "deny",
+          "*.env.*": "deny"
+        },
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "bash": {
+          "*": "deny",
+          "git log": "allow",
+          "git log *": "allow",
+          "git show": "allow",
+          "git show *": "allow",
+          "git diff": "allow",
+          "git diff *": "allow"
+        },
+        "task": "deny",
+        "edit": "deny",
+        "webfetch": "deny",
+        "websearch": "allow"
+      }
+    },
+    "document-author": {
+      "mode": "subagent",
+      "temperature": 0.3,
+      "permission": {
+        "*": "deny",
+        "read": {
+          "*": "allow",
+          "*.env": "deny",
+          "*.env.*": "deny"
+        },
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": "allow",
+        "bash": {
+          "*": "deny",
+          "node .opencode/docs-check.js": "allow",
+          "node .opencode/docs-check.js *": "allow",
+          "npx --yes markdownlint-cli2@0.23.2": "allow",
+          "npx --yes markdownlint-cli2@0.23.2 *": "allow",
+          "git diff": "allow",
+          "git diff *": "allow",
+          "git status": "allow",
+          "git status *": "allow"
+        },
+        "webfetch": "ask",
+        "websearch": "allow",
+        "task": "deny",
+        "skill": {
+          "*": "deny",
+          "repository-documentation": "allow",
+          "docs-check": "allow",
+          "docs-publish": "allow",
+          "commit-convention": "allow",
+          "decision-record": "allow",
+          "specification": "allow",
+          "implementation-plan": "allow",
+          "architecture-document": "allow",
+          "implementation-map": "allow",
+          "contract-design": "allow",
+          "openapi": "allow",
+          "json-schema": "allow",
+          "contract-guide": "allow",
+          "contract-publication": "allow",
+          "security-privacy": "allow",
+          "accessibility": "allow",
+          "quality-attributes": "allow",
+          "software-architecture": "allow",
+          "software-design": "allow",
+          "design-for-testability": "allow",
+          "api-compatibility": "allow",
+          "apostrophe-cms": "allow",
+          "astro": "allow",
+          "react": "allow",
+          "javascript": "allow",
+          "typescript": "allow",
+          "semantic-html": "allow",
+          "css-sass": "allow",
+          "image-media-delivery": "allow",
+          "web-performance": "allow",
+          "seo-structured-data": "allow"
+        }
+      }
+    },
+    "review": {
+      "mode": "subagent",
+      "temperature": 0.1,
+      "permission": {
+        "*": "deny",
+        "read": {
+          "*": "allow",
+          "*.env": "deny",
+          "*.env.*": "deny"
+        },
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": "deny",
+        "bash": "deny",
+        "task": "deny",
+        "webfetch": "ask",
+        "websearch": "allow",
+        "skill": {
+          "*": "deny",
+          "peer": "allow",
+          "security": "allow",
+          "decision-quality": "allow",
+          "behavioral-completeness": "allow",
+          "gherkin-testability": "allow",
+          "requirements-traceability": "allow",
+          "architectural-coherence": "allow",
+          "repository-accuracy": "allow",
+          "contract-completeness": "allow",
+          "security-privacy": "allow",
+          "accessibility": "allow",
+          "quality-attributes": "allow",
+          "software-architecture": "allow",
+          "software-design": "allow",
+          "design-for-testability": "allow",
+          "api-compatibility": "allow",
+          "apostrophe-cms": "allow",
+          "astro": "allow",
+          "react": "allow",
+          "javascript": "allow",
+          "typescript": "allow",
+          "semantic-html": "allow",
+          "css-sass": "allow",
+          "image-media-delivery": "allow",
+          "web-performance": "allow",
+          "seo-structured-data": "allow"
+        }
+      }
+    }
+  }
+}

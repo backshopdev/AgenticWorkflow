@@ -1,15 +1,18 @@
-# Agentic Workflow Harness — Reference Template
+# Document-Authoring Workflow Template
 
-Customize this template for the consuming repository while preserving the
-stable role and gate contracts.
+A multi-agent workflow for OpenCode that guides AI agents through structured
+document authoring, independent review, and publication.
 
 ## Quick Start
 
 1. Start `opencode` and select `orchestrator`.
-2. Describe the goal and approve the plan.
-3. Inspect authored files before composed review.
-4. Triage findings and approve the commit message.
+2. Describe the documentation goal.
+3. The orchestrator conducts a Socratic interview and drafts an authoring brief.
+4. Approve the plan (Gate 1).
+5. The orchestrator delegates to `discovery`, `document-author`, and `review`.
+6. Inspect authored files and triage review findings.
+7. Approve the commit message and confirm the commit.
 
-For detailed workflow mechanics — roles, skill composition, orchestration loop,
-HITL gates, objective checks, and key rules — see
-[AGENTIC_WORKFLOW.md](AGENTIC_WORKFLOW.md).
+For detailed workflow mechanics — agent roles, skill architecture, document
+authority, authoring and discovery workflows, review model, validation, and
+publication — see [AGENTIC_WORKFLOW.md](AGENTIC_WORKFLOW.md).

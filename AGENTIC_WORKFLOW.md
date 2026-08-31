@@ -73,6 +73,20 @@ Markdown or an immediate child's `index.md`; no deep or absolute links.
 - Any accepted change request returns to document-author and restarts work
   approval/review. Re-plan only when the human reopens the plan.
 
+## Permission Model
+
+Bash permission patterns in `opencode.json` use wildcards (for example,
+`"git diff *"`). This assumes OpenCode either sanitizes shell metacharacters
+(`&&`, `;`, `|`, `||`) before matching or uses `execFile` instead of a shell
+interpreter, so that a wildcard match cannot be escaped into an unintended
+command.
+
+For consuming repositories that add git write permissions, port the deny rules
+from the production root `opencode.json` (force-push, `--no-verify`, persistent
+`always` approval, and similar) before granting write authority. The template in
+`src/` is stricter than production: it grants no git write authority to any
+agent.
+
 ## Key Rules
 
 - No stage advances without passing; findings are inputs the human may dismiss.

@@ -1,6 +1,6 @@
 ---
 name: peer
-description: Use for every review to assess acceptance criteria, correctness, completeness, consistency, clarity, conventions, integration, and scope control.
+description: Use for every review to assess acceptance criteria, correctness, completeness, consistency, clarity, conventions, integration, and scope control. Mandatory for every review; combine with at least one domain or lens skill.
 ---
 
 # Peer Review Lens
@@ -10,8 +10,22 @@ description: Use for every review to assess acceptance criteria, correctness, co
 Exercise independent general-review judgment across correctness, completeness,
 coherence, scope, maintainability, and integration. Remain the caller's review
 agent; this lens adds disciplined skepticism, not a persona. It is mandatory
-for every review and must be combined with at least one relevant domain skill.
-Peer review supplies breadth but never substitutes for domain expertise.
+for every review and must be combined with at least one relevant domain skill
+or review lens. Peer review supplies breadth but never substitutes for domain
+expertise.
+
+In the document-authoring workflow, peer review additionally assesses:
+
+- **Coherence:** Does the document hang together? Do sections support each
+  other? Are there contradictions?
+- **Clarity:** Can a reader unfamiliar with the author's intent understand
+  the document? Is jargon defined? Are ambiguous terms resolved?
+- **Internal consistency:** Do metadata, IDs, links, and cross-references
+  agree? Do status values match lifecycle rules?
+- **Omissions:** Are required sections present? Are required metadata fields
+  populated? Are edge cases addressed?
+- **Usefulness:** Will this document serve its intended audience? Does it
+  answer the questions a reader will have?
 
 ## Review model
 
@@ -48,9 +62,9 @@ changes and criteria. Do not turn review into an audit of unrelated legacy debt.
 
 | Level | Use when | Do not use for |
 | --- | --- | --- |
-| `blocker` | Unsafe, invalid, data-losing, or criterion-defeating issue | Mere preference |
-| `should` | Material correctness, completeness, integration, or maintenance risk | Optional polish |
-| `nit` | Low-cost clarity or consistency improvement | Noise with no reader impact |
+| `blocker` | Unsafe, invalid, data-losing, or criterion-defeating | Prefer |
+| `should` | Material correctness, completeness, integration risk | Polish |
+| `nit` | Low-cost clarity or consistency improvement | Noise |
 
 State confidence as high when directly demonstrated, medium when a plausible
 path depends on an explicit assumption, and low only when uncertainty itself is
