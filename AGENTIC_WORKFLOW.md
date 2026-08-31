@@ -46,6 +46,31 @@ and skill provenance. Substantive disagreement is a **Debate** presented to the
 human for authoritative triage; the orchestrator never resolves it alone or
 rewrites an original reviewer verdict after triage.
 
+## Remediation Flow
+
+When review surfaces issues that need remediation, the flow returns to
+implementation and then back through both review stages. The human and agent
+both validate that findings were remediated without introducing new issues.
+
+### Path A — Human review finds issues
+
+```text
+human review [changes surfaced] → implementation → human review → agentic review → commit
+```
+
+### Path B — Agentic review finds issues (after human review was clean)
+
+```text
+human review [clean] → agentic review [changes surfaced] → implementation → human review → agentic review → commit
+```
+
+### Skipping workflow steps
+
+The human may elect to skip a workflow step (e.g., agentic re-review after a
+trivial fix). If the agent disagrees with that assessment, it should push back.
+The human may override, but the agent's pushback is a valued input that signals
+potential risk. The decision and reasoning should be noted in the conversation.
+
 ## Objective Checks
 
 The document-author runs checks; there is no separate verifier. This is a docs

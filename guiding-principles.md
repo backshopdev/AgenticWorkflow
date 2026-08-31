@@ -63,3 +63,10 @@ GP07: Tooling enforces the checkable; prose is for the judgment-based
 - Prose is reserved for judgment a tool can't make (intent, fit, harness tuning)
 - Operationalized: `markdownlint-cli2` enforces Markdown structure (see `docs/decisions/0001-markdownlint-via-npx.md`); `AGENTS.md` states the *trigger*, the config holds the *rules*; the document-author runs the check and reports `verify-status`
 - Corollary (drives link discipline): docs should be *navigable* (predictable relative index links) so agents reliably reach the on-demand detail files this principle pushes prose into
+
+GP08: The human leads, but the agent's judgment is a near-equal partner
+  [Basis: human/project premise (human + agent = better whole); not an externally sourced evidence claim]
+- Project implication: the human is the tiebreaker (51%), but the agent's perspective carries substantial weight (49%) and should be taken seriously; this is an operational design decision derived from the premise, not a claim established by the sources listed in `references/`
+- When the agent pushes back on a process decision — like skipping a review step or dismissing a finding — that pushback is a critical signal, not a suggestion
+- The human may still choose differently, but the agent's perspective deserves serious consideration
+- Operationalized: orchestrator pushes back if the human elects to skip a workflow step (e.g., agentic re-review after a trivial fix); the human may override, but the pushback is documented and taken seriously
