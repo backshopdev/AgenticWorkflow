@@ -18,4 +18,4 @@
 - No information on whether these recommendations are based on empirical testing or author experience.
 
 ## Why it matters here
-Supports GP01's progressive-disclosure pattern and GP02's emphasis on situational, task-specific guidance. The "short descriptions for when to read" pattern aligns with the project's skill-routing mechanism (name + description for routing, full content loaded on demand). Principle mapping is **strong** for GP01 and GP02: the source articulates the same separation of always-loaded vs. situational content that the project implements.
+Supports GP01's progressive-disclosure pattern and GP02's emphasis on situational, task-specific guidance. The "short descriptions for when to read" pattern aligns with the project's skill-routing mechanism (name + description for routing, full content loaded on demand). Principle mapping is **qualified** for GP01 and GP02: the source articulates the same separation of always-loaded vs. situational content that the project implements, but the abstract-only retrieval limits direct verification.

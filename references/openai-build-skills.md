@@ -17,4 +17,4 @@
 - No information on whether OpenAI provides evaluation data for this pattern.
 
 ## Why it matters here
-Confirms that the progressive-disclosure pattern for skills is not unique to this project or Anthropic; OpenAI's documentation describes the same approach. The execution-plan example validates the project's separation of high-level AGENTS.md guidance from detailed situational files. Principle mapping is **strong** for GP01 and GP02: multiple vendors converge on the same pattern, suggesting it is a robust design principle.
+Confirms that the progressive-disclosure pattern for skills is not unique to this project or Anthropic; OpenAI's documentation describes the same approach. The execution-plan example validates the project's separation of high-level AGENTS.md guidance from detailed situational files. Principle mapping is **qualified** for GP01 and GP02: multiple vendors converge on the same pattern, suggesting it is a robust design principle, but the abstract-only retrieval limits direct verification.

@@ -1,18 +1,22 @@
 # Guiding Principles (extracted from considered sources)
 
 GP01: Progressive disclosure - start simple, layer complexity as needed
-  [Source: AI Hero guide on AGENTS.md]
+  [Source: AI Hero guide on AGENTS.md; Anthropic "Effective context engineering"; HumanLayer "Writing a good CLAUDE.md"; OpenAI "Using PLANS.md"; Anthropic "Agent Skills"; OpenAI "Build skills"; arXiv 2607.17598v1 "Progressive disclosure for long-context agents"]
 - The workflow AGENTS.md should begin with core philosophy and progressive pipeline stages
 - Additional details reveal only when the human collaborator yields after each gate
 - Prevents context rot by not dumping all information upfront
-- Operationalized: AGENTS.md starts compact (≤100-line budget), expands only when task type warrants
+- **Conditional routing**: every linked resource states **when** it should be read and **what question** it answers (pattern: when → read → purpose). Do not instruct agents to read all linked files by default; each link carries an activation condition.
+- **Routing depth**: prefer one routing hop (metadata → full instructions) before actionable content. Add another level only when the additional separation has demonstrated value; deeper nesting can degrade accuracy without improving routing.
+- Operationalized: AGENTS.md starts compact (≤100-line budget), expands only when task type warrants; skills expose name + description for routing, full SKILL.md loaded on demand
 
 GP02: Single source of truth - all artifacts in dedicated directories, never scattered
-  [Source: alexop.dev on progressive disclosure for Claude.md]
+  [Source: alexop.dev on progressive disclosure for Claude.md; arXiv 2606.15828 "Configuration smells"]
 - All workflow artifacts live in `~/docs/` + `WORKFLOW_STATE.md`
 - Chat history is for transitory discussion, not persistent record
 - Operationalized: `~/docs/decisions/`, `~/docs/specs/`, `~/docs/plans/` (review findings are ephemeral — triaged in-session, not persisted)
 - AGENTS.md references these directories; nothing scattered in conversation history
+- **Project synthesis — Authority mapping**: normative rules have one authoritative owner (agent definition, skill, document, script, or configuration). Summaries elsewhere exist for routing only and must not conflict with their authoritative source.
+- **Checkable requirements**: deterministically checkable requirements belong in tools or configuration; prose describes *when* to run the check rather than duplicating its rules.
 
 GP03: Human in loop - orchestrator is entry point, yields after each gate
   [Source: Operator working principle]
@@ -58,11 +62,15 @@ GP06: A question is an invitation to converse, not a work order
 - Operationalized: orchestrator "Question-vs-Command" protocol; AGENTS.md Socratic rule; mirrored to consuming repos via `src/`
 
 GP07: Tooling enforces the checkable; prose is for the judgment-based
-  [Source: alexop.dev "Stop Bloating Your CLAUDE.md" (backpressure) + AI Hero "Complete Guide to AGENTS.md" (instruction budget)]
+  [Source: alexop.dev "Stop Bloating Your CLAUDE.md" (backpressure) + AI Hero "Complete Guide to AGENTS.md" (instruction budget); arXiv 2606.15828 "Configuration smells"; arXiv 2602.11988 "Evaluating AGENTS.md"; HumanLayer "Skill issue"]
 - If a linter/build can verify a rule, encode it in the tool, not in prose instructions (saves the instruction budget + removes ambiguity)
 - Prose is reserved for judgment a tool can't make (intent, fit, harness tuning)
 - Operationalized: `markdownlint-cli2` enforces Markdown structure (see `docs/decisions/0001-markdownlint-via-npx.md`); `AGENTS.md` states the *trigger*, the config holds the *rules*; the document-author runs the check and reports `verify-status`
 - Corollary (drives link discipline): docs should be *navigable* (predictable relative index links) so agents reliably reach the on-demand detail files this principle pushes prose into
+- **Move, don't delete**: when condensing, move detail to its authoritative home (skill) where it is preserved but loaded on demand. Bad condensing removes detail to hit a line count, losing specificity that handles retro'd situations. Good condensing moves detail to the right place.
+- **Soft line-count guidance**: Project operationalization: AGENTS.md targets ~100 lines (soft guidance), with a hard cap around 125 lines. These thresholds are project decisions, not source-derived; the AI Hero source supports minimal always-loaded context but does not specify exact line counts. Don't split files just to hit a line cap; split only when the new file has a clear activation condition — a file can remain unloaded for unrelated tasks.
+- **Signal detection**: accumulation of narrowly specific details in root-level files signals that the content should migrate to a skill. Root/src files should be generalist: universal constraints or routing to broader information.
+- **Evaluation through representative prompts**: test harness changes with representative prompts covering general questions, authoring, review, configuration, validation, commit preparation, and build/test tasks. Add or retain instructions only when they address demonstrated failures observed during evaluation.
 
 GP08: The human leads, but the agent's judgment is a near-equal partner
   [Basis: human/project premise (human + agent = better whole); not an externally sourced evidence claim]

@@ -73,11 +73,11 @@ For full workflow mechanics — role detail, HITL gate enforcement, permission m
 - **`docs/`** — durable artifacts: decisions, specs, and plans
 - **`ktlo/`** — keep-the-lights-on operational items (domain conventions, coding standards, sync procedures)
 - **`references/`** — literature notes that informed the guiding principles
-- **`guiding-principles.md`** — seven principles (GP01–GP07) extracted from considered sources
+- **`guiding-principles.md`** — eight principles (GP01–GP08) extracted from considered sources
 
 ## Guiding Principles
 
-Seven principles shape every design decision in this workflow:
+Eight principles shape every design decision in this workflow:
 
 1. **Progressive disclosure** — start simple, layer complexity as needed
 2. **Single source of truth** — all artifacts in dedicated directories, never scattered
@@ -86,6 +86,7 @@ Seven principles shape every design decision in this workflow:
 5. **Socratic interview** — surface assumptions before generation
 6. **Question, not command** — an invitation to converse, not a work order
 7. **Tooling enforces the checkable** — linters handle the verifiable; prose is for judgment
+8. **Human leads, agent as near-equal partner** — the human is tiebreaker, but agent judgment carries substantial weight
 
 See [guiding-principles.md](guiding-principles.md) for the full extraction with sources.
 
@@ -104,7 +105,7 @@ See [guiding-principles.md](guiding-principles.md) for the full extraction with 
 
 ### Root-only
 
-- **guiding-principles.md** — seven principles (GP01–GP07) with source attribution and operationalization notes
+- **guiding-principles.md** — eight principles (GP01–GP08) with source attribution and operationalization notes
 - **.markdownlint-cli2.jsonc** — markdownlint config tuned for dense prose; silence cosmetic rules, keep correctness guards
 - **references/** — literature notes that informed the guiding principles
 - **LICENSE** — project license

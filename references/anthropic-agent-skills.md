@@ -17,4 +17,4 @@
 - No information on how Anthropic measures the effectiveness of this pattern.
 
 ## Why it matters here
-Directly supports the project's skill-routing mechanism and GP01's progressive-disclosure pattern. The "compact name/description for routing, full content on demand" pattern is exactly what the project implements in its `.opencode/skills/` structure. Principle mapping is **strong** for GP01 and GP02: the source describes the same architectural pattern the project uses.
+Directly supports the project's skill-routing mechanism and GP01's progressive-disclosure pattern. The "compact name/description for routing, full content on demand" pattern is exactly what the project implements in its `.opencode/skills/` structure. Principle mapping is **qualified** for GP01 and GP02: the source describes the same architectural pattern the project uses, but the abstract-only retrieval limits direct verification.

@@ -10,5 +10,35 @@ This repository is the operational harness for the current project. It defines
 the stable roles, workflow, gates, and checks that govern human-agent
 collaboration here.
 
-For detailed workflow mechanics — roles, orchestration loop, HITL gates,
-objective checks, and key rules — see [AGENTIC_WORKFLOW.md](AGENTIC_WORKFLOW.md).
+## Universal Rules
+
+These rules apply to all agents in all contexts:
+
+1. **Human approval is mandatory before implementation or commit.** No stage
+   advances without passing its gate. Questions and requests for advice do not
+   authorize file changes.
+2. **Human requests enter through the orchestrator.** The orchestrator is the
+   primary human interface and never edits files directly.
+3. **Never force-push, bypass hooks, use wrappers to evade permissions, or
+   select persistent "always" approval.** Every git commit and push requires
+   explicit human chat approval plus a fresh OpenCode `once` confirmation.
+4. **Workflow resets after each commit.** The human may abandon work and restart
+   at the planning phase at any time.
+5. **Prefer deterministic checks over prose-based inspection.** Use tools and
+   scripts to validate what can be validated objectively.
+
+## Read on Demand
+
+Load only the resources relevant to your current task. Do not read all linked
+files by default.
+
+| When | Read | Purpose |
+| --- | --- | --- |
+| Understanding the end-to-end workflow | [`AGENTIC_WORKFLOW.md`](AGENTIC_WORKFLOW.md) | Learn stages, gates, roles, orchestration loop, and key rules |
+| Authoring or reviewing an artifact | Applicable domain skill | Load artifact-specific or review-lens procedures |
+| Validating documentation | `docs-check` skill or document-author responsibilities | Run and interpret objective checks (markdown lint, JSON validation, link/index validation, frontmatter, secrets) |
+| Preparing a commit | `commit-convention` skill | Apply the normative commit grammar and amendment rules |
+| Changing OpenCode configuration | `opencode-configuration` skill | Apply configuration-specific guidance and validation |
+| Conducting a review | `peer` skill (+ domain skill) | Apply the peer review lens and domain expertise |
+| Changes affect permissions, secrets, or auth | `security` skill | Apply the security review threat model |
+| Decomposing work into a plan | `planning-structure` skill | Apply planning structure requirements and acceptance criteria |

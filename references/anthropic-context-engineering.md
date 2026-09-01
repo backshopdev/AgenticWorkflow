@@ -17,4 +17,4 @@
 - "Lightweight identifiers" is mentioned but not elaborated in the summary.
 
 ## Why it matters here
-Directly supports GP01's progressive-disclosure pattern: expose minimal metadata first, load full instructions on demand. The "smallest set of high-signal tokens" framing aligns with the project's ≤100-line AGENTS.md ceiling and its emphasis on keeping always-loaded content minimal. Principle mapping is **strong** for GP01: the source articulates the same design principle the project operationalizes.
+Directly supports GP01's progressive-disclosure pattern: expose minimal metadata first, load full instructions on demand. The "smallest set of high-signal tokens" framing aligns with the project's ≤100-line AGENTS.md ceiling and its emphasis on keeping always-loaded content minimal. Principle mapping is **qualified** for GP01: the source articulates the same design principle the project operationalizes, but the abstract-only retrieval limits direct verification.

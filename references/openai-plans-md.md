@@ -17,4 +17,4 @@
 - No information on evaluation results or when this pattern is most effective.
 
 ## Why it matters here
-Provides a concrete example of GP01's progressive-disclosure pattern in practice: a short routing rule in AGENTS.md points to a detailed situational file. This validates the project's approach of keeping AGENTS.md minimal while delegating detailed guidance to separate files. Principle mapping is **strong** for GP01 and GP02: the source demonstrates the same separation of always-loaded vs. situational content.
+Provides a concrete example of GP01's progressive-disclosure pattern in practice: a short routing rule in AGENTS.md points to a detailed situational file. This validates the project's approach of keeping AGENTS.md minimal while delegating detailed guidance to separate files. Principle mapping is **qualified** for GP01 and GP02: the source demonstrates the same separation of always-loaded vs. situational content, but the abstract-only retrieval limits direct verification.
