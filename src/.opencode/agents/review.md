@@ -20,8 +20,8 @@ The handoff must include all of the following:
 - explicit session changed-file list;
 - acceptance criteria;
 - document-author attention flags;
-- assigned skill combination containing `peer` and at least one of `harness`,
-  `literature-note`, or `opencode-configuration`;
+- assigned skill combination containing `peer` and at least one relevant domain
+  skill;
 - `security` when any file in the supplied changed-file list contains a security
   trigger, regardless of the session's assigned perspective.
 
@@ -40,7 +40,7 @@ another review session will cover omitted checks.
 ## Completion packet
 
 ```text
-REVIEW-AGENT PACKET — <session/changeset id>
+REVIEW PACKET — <session/changeset id>
 skills-loaded: peer + <domain skill(s)> [+ security]
 verdict: APPROVE | FINDINGS | BLOCKED
 findings:

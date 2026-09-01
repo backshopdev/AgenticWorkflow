@@ -200,7 +200,22 @@ The discovery agent:
 2. Searches for patterns and references.
 3. Runs read-only git commands.
 4. Searches the web if needed.
-5. Returns a findings report to the orchestrator.
+5. Returns a structured findings report to the orchestrator.
+
+### Discovery Output Format
+
+The discovery agent returns a structured report containing:
+
+- **Scope**: What was investigated (files, directories, or questions).
+- **Purpose**: Why it was investigated (planning context, skill selection, etc.).
+- **Findings**: Structured observations with file paths and relevant context. At
+  minimum, this includes a "Current State" section describing what exists.
+- **Recommendations**: Suggested next steps, skill assignments, or gaps
+  identified (if relevant to the task).
+- **Open questions**: Unresolved ambiguities or none.
+
+The orchestrator uses these findings to inform planning, skill selection, and
+task routing. Findings are advisory and do not authorize implementation.
 
 ## Repository Documentation Structure
 

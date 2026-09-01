@@ -20,7 +20,7 @@ commit or require reviewers to replace their original verdicts with `APPROVE`.
 ```
 
 - The **human reviews first** — a fast, cheap direction check ("is this the right thing?") before spending adversarial-review tokens.
-- One or more independent **review-agent sessions** run next, in parallel. Each
+- One or more independent **review sessions** run next, in parallel. Each
   receives the changed-file list and loads `peer` plus a domain skill; risk-sensitive
   work also loads `security`. The document-author has already reported objective
   checks. The human authoritatively triages findings and debates.

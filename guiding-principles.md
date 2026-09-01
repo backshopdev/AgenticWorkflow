@@ -26,7 +26,7 @@ GP04: Independent parallel review + human triage
 - Project implication: use independent review and authoritative human triage;
   this is an operational design decision derived from the premise, not a claim
   established by the sources listed in `references/`
-- Review runs as one or more independent `review-agent` sessions in parallel;
+- Review runs as one or more independent `review` sessions in parallel;
   diversity comes from assigned domain and lens skills, not pinned models
 - Every session loads `peer` plus a domain skill; risk-sensitive work adds `security`
 - Scope is disciplined to the session's changed files + how they intersect the repo; findings are anchored, not blanket audits
@@ -44,7 +44,7 @@ GP05: Socratic interview surfaces assumptions before generation
   and side effects through human-facing Socratic interviewing
 - Explicit opinion requests open dialog, don't just state opinion
 - Operationalized: the orchestrator alone uses the human-facing Socratic
-  interview protocol; independent, read-only review-agent sessions report
+  interview protocol; independent, read-only review sessions report
   assumptions and findings to the orchestrator and never interview the human
 - Opening question: "Could you tell me: what's your primary objective...?"
 - When user asks "what do you think?" → agent opens dialog, doesn't just give opinion
