@@ -77,6 +77,33 @@ note that never states their evidential basis.
 5. Follow repository frontmatter, index, and relative-link rules; add only links
    that the repository can resolve.
 
+## Multi-source synthesis workflow
+
+When a task involves multiple sources:
+
+1. **Intake**: Receive handoff packet or research brief identifying the sources.
+2. **Analyze**: Create a literature note for each source, marking retrieval
+   status and access limitations before synthesis.
+3. **Synthesize**: Identify patterns across sources and extract common
+   principles. Note convergence when multiple sources support the same pattern.
+4. **Update principles**: Refine or create guiding principles based on
+   synthesized evidence.
+5. **Update dependent docs**: Ensure documents that reference changed principles
+   are updated when principles change.
+
+## Handoff packet guidance
+
+Handoff packets may reference multiple sources with varying retrieval status.
+
+- Mark each source's retrieval status honestly (abstract/snippet only, partial,
+  full text, inaccessible).
+- Distinguish source claims from inferences and from implications.
+- When multiple sources support the same pattern, note the convergence and the
+  strength it adds to the principle mapping.
+- When sources conflict, document the disagreement explicitly and assess which
+  source is more applicable to the project scope. Do not silently resolve
+  conflicts by favoring one source without justification.
+
 ## Review guidance and escalation
 
 Sample the most consequential claims against the inspected source or local

@@ -54,6 +54,23 @@ independence but also handoff loss, latency, and synthesis burden. More prompt
 text can reduce ambiguity but crowd out task evidence. Use the smallest design
 that preserves the required boundaries.
 
+## Progressive-disclosure guidance
+
+- **Conditional routing pattern**: Every linked resource states when → read →
+  purpose. Do not instruct agents to read all linked files by default; each link
+  carries an activation condition.
+- **Soft line-count guidance**: AGENTS.md targets ~100 lines (soft), hard cap
+  ~125 lines. These are project decisions, not source-derived.
+- **Clear activation conditions**: Do not split files just to hit a line cap;
+  split only when the new file has a clear activation condition and can remain
+  unloaded for unrelated tasks.
+- **Signal detection**: Accumulation of narrowly specific details in root-level
+  files signals that the content should migrate to a skill. Root files should be
+  generalist: universal constraints or routing to broader information.
+- **Move, don't delete**: When condensing, move detail to its authoritative home
+  (skill) where it is preserved but loaded on demand. Bad condensing removes
+  detail to hit a line count; good condensing moves detail to the right place.
+
 ## Preferred and discouraged patterns
 
 Prefer stable roles plus composable skills; explicit completion packets;
@@ -83,6 +100,15 @@ drift without detection.
 - When root and template artifacts coexist, change both in one task and make
   byte-identity or an intentional-difference rule objectively checkable.
 
+## Authority-mapping principles
+
+- Normative rules have one authoritative owner: an agent definition, skill,
+  document, script, or configuration.
+- Summaries elsewhere exist for routing only and must not conflict with their
+  authoritative source.
+- Deterministically checkable requirements belong in tools or configuration,
+  with prose describing when to run them rather than duplicating their rules.
+
 ## Review guidance and evidence
 
 Trace at least one success path and one failure/revision path end to end. Compare
@@ -94,3 +120,19 @@ Escalate when authority is ambiguous, a HITL gate is bypassable, required state
 cannot cross an isolation boundary, least privilege conflicts with the task, or
 root/template divergence has no declared source of truth. Report the affected
 path, concrete consequence, and smallest viable correction.
+
+## Evaluation methodology
+
+Test harness changes with representative prompts covering:
+
+- General question (must not trigger edits)
+- Document authoring
+- Document review with domain and security lens selection
+- OpenCode configuration maintenance
+- Documentation validation
+- Commit preparation
+- Consuming-project build/test task (before and after configuration)
+
+Validate that agents selected correct resources, avoided irrelevant resources,
+respected authority boundaries, and used valid commands. Revise routing
+descriptions based on observed failures rather than adding speculative rules.
