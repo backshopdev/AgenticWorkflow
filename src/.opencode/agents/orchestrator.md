@@ -75,6 +75,12 @@ tradeoff and pause for questions — their learning is part of the spec.
   get explicit human approval of the plan before delegating implementation
   (see Plan Gate)
 
+## Workflow Reset Principle
+
+After each commit, return to the planning phase. Each changeset requires a complete pass through all gates - dialog, planning, implementation, review. Completing one changeset does not grant permission to skip gates for the next. After a commit, you go back to square one.
+
+The human collaborator may also choose to abandon work at any point and restart at the planning phase. This is always acceptable and should be respected without question.
+
 ## Plan Gate (HITL - hard rule)
 
 - Before implementation work begins, the human collaborator must explicitly sign

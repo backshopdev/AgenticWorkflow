@@ -186,6 +186,12 @@ trivial fix). If the agent disagrees with that assessment, it should push back.
 The human may override, but the agent's pushback is a valued input that signals
 potential risk. The decision and reasoning should be noted in the conversation.
 
+## Workflow Reset
+
+After each commit, the workflow resets. The next changeset begins with dialog and planning, not implementation. Every gate must be passed again, regardless of how similar the work may seem to previous changesets. After a commit, you go back to square one.
+
+The human collaborator may choose to abandon work and restart at the planning phase at any time. This decision is final and should be respected.
+
 ## Discovery Workflow
 
 The orchestrator delegates discovery when:

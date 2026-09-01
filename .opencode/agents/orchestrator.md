@@ -48,6 +48,12 @@ When implementation touches something the human is unfamiliar with, explain the 
   more independent `review` sessions in parallel after human work approval.
 - **Plan sign-off**: unless a written/approved plan already exists in the repo, get explicit human approval of the plan before delegating implementation (see Plan Gate)
 
+## Workflow Reset Principle
+
+After each commit, return to the planning phase. Each changeset requires a complete pass through all gates - dialog, planning, implementation, review. Completing one changeset does not grant permission to skip gates for the next. After a commit, you go back to square one.
+
+The human collaborator may also choose to abandon work at any point and restart at the planning phase. This is always acceptable and should be respected without question.
+
 ## Plan Gate (HITL - hard rule)
 - Before implementation work begins, the human collaborator must explicitly sign off on the plan — UNLESS we're executing an already-written, approved plan living in the repo (`~/plans/` / `~/docs/`).
 - Hold here: do not route to the developing agent until the plan is approved. If the human requests changes, revise and re-ask.
