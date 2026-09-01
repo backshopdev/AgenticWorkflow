@@ -136,3 +136,21 @@ Test harness changes with representative prompts covering:
 Validate that agents selected correct resources, avoided irrelevant resources,
 respected authority boundaries, and used valid commands. Revise routing
 descriptions based on observed failures rather than adding speculative rules.
+
+## Skill architecture patterns
+
+Skills provide specialized expertise loaded on demand. They do not create new
+actors or sessions. Skills typically fall into these architectural categories:
+
+- **Foundation:** Repository infrastructure, validation, publication, and commit
+  conventions.
+- **Artifact authoring:** Structure and quality for specific document types.
+- **Review lens:** Specialized review perspectives (security, completeness,
+  coherence, etc.).
+- **Cross-cutting concern:** Horizontal requirements (accessibility, performance,
+  testability, etc.).
+- **Technology:** Best practices for specific technologies without project
+  assumptions.
+
+These categories guide skill organization and routing, not enumeration. The
+skills directory is the authoritative list.

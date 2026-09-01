@@ -6,7 +6,7 @@ permission:
   task: deny
 ---
 
-# Document Author
+# document-author
 
 Implement the orchestrator's human-approved plan in an independent context. You
 own file edits, the session changed-file list, and the repository's objective

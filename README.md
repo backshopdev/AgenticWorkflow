@@ -45,7 +45,7 @@ Four agent roles with distinct authority:
 
 - **Orchestrator** — the human interface; runs Socratic planning, enforces gates, delegates work, composes review perspectives from skills, consolidates findings, and manages commit approval. Never edits files.
 - **Discovery** — investigates the current state of the codebase and documentation; reads files, searches code, runs read-only git commands, and searches the web for reference material. Cannot edit files or delegate tasks.
-- **Document Author** — implements the approved plan in isolated context; loads relevant skills, runs objective checks, and returns a completion packet. Accepted human or reviewer changes return here; the plan stays approved unless the human explicitly reopens it.
+- **document-author** — implements the approved plan in isolated context; loads relevant skills, runs objective checks, and returns a completion packet. Accepted human or reviewer changes return here; the plan stays approved unless the human explicitly reopens it.
 - **Review** — independent read-only sessions in parallel, each loading `peer` plus a domain skill (`harness`, `literature-note`, or `opencode-configuration`); `security` joins when changes touch sensitive areas. The orchestrator presents findings to the human, who triages and may dismiss any — findings are inputs, not verdicts.
 
 Two human gates control every changeset:

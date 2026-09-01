@@ -12,7 +12,7 @@ Workflow harness. For a concise introduction, see [AGENTS.md](AGENTS.md).
   review perspectives from skills, consolidates findings, and manages commit
   approval.
 
-### 2. Document Author
+### 2. document-author
 
 - `@document-author` implements the approved plan in isolated context.
 - Loads relevant domain skills, owns the explicit changed-file list, runs repo

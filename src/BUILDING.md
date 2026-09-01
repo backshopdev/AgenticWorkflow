@@ -35,7 +35,7 @@
 1. Describe your goal to the `orchestrator` agent.
 2. If non-trivial, the pipeline will route through:
    - Orchestrator: plan + Socratic interview, then Gate 1 sign-off.
-   - Document Author: executes the approved plan and returns a completion
+   - document-author: executes the approved plan and returns a completion
      packet.
    - Review Agent: independent parallel sessions composed from peer, domain,
      and conditional security skills.

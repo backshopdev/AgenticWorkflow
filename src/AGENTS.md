@@ -37,7 +37,7 @@ files by default.
 
 | When | Read | Purpose |
 | --- | --- | --- |
-| Understanding the end-to-end workflow | [`AGENTIC_WORKFLOW.md`](AGENTIC_WORKFLOW.md) | Learn agent roles, skill architecture, document authority, authoring and discovery workflows, review model, validation, and publication |
+| Understanding the end-to-end workflow | [`AGENTIC_WORKFLOW.md`](AGENTIC_WORKFLOW.md) | Learn agent roles, authoring and discovery workflows, remediation flow, routing table, HITL gates, and key rules; routing table directs to skills for document authority, validation, publication, and other detailed procedures |
 | Authoring or reviewing an artifact | Applicable domain skill | Load artifact-specific or review-lens procedures |
 | Validating documentation | `docs-check` skill or document-author responsibilities | Run and interpret objective checks (markdown lint, JSON validation, link/index validation, frontmatter, secrets) |
 | Preparing a commit | `commit-convention` skill | Apply the normative commit grammar and amendment rules |
