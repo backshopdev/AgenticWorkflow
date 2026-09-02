@@ -3,11 +3,12 @@
 Operational "keep the lights on" items. Links are relative, same-directory only (index discipline).
 
 ## Template Source of Truth (do not edit directly - update template repo)
-- [Domain conventions](./domain-conventions-qhbjycw9.md) - `[template]`
-- [Coding standards](./coding-standards-x8k2mnpq.md) - `[template]`
-- [Keep `src/` copies in sync with root](./sync-src-from-root-r4t7vwxy.md) - `[template]`
+- [Coding standards](./KTLO-20260829-001.md) - `[template]`
+- [Domain conventions](./KTLO-20260829-002.md) - `[template]`
+- [Keep `src/` copies in sync with root](./KTLO-20260829-003.md) - `[template]`
 
 ## Project-Specific KTLO (customize freely - add your own items)
-- Add new items as `ktlo/description-8charhash.md` marked `[project]` and linked from this index
+- [Consider adding domain-skills and review-verdicts to commit footers](./KTLO-20260902-001.md) - `[project]`
+- Add new items as `ktlo/KTLO-YYYYMMDD-NN.md` marked `[project]` and linked from this index
 
-Total: 3 template + 0 project
+Total: 3 template + 1 project

@@ -15,7 +15,7 @@
  *
  * Filename conventions:
  * - Docs files: YYYY-MM-DD-description.md (e.g., 2026-09-01-location-search.md)
- * - KTLO files: description-8charhash.md (e.g., item-name-qhbjycw9.md)
+ * - KTLO files: KTLO-YYYYMMDD-NN.md (e.g., KTLO-20260829-001.md)
  *
  * Checks:
  * - Every Markdown directory has index.md
@@ -71,9 +71,9 @@ const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 // Filename conventions:
 // - Docs files (decisions/): YYYY-MM-DD-description.md
-// - KTLO files: description-8charhash.md (8 lowercase alphanumeric chars)
+// - KTLO files: KTLO-YYYYMMDD-NN.md (sequential number per day)
 const DOCS_FILENAME_RE = /^\d{4}-\d{2}-\d{2}-.*\.md$/;
-const KTLO_FILENAME_RE = /^.*-[a-z0-9]{8}\.md$/;
+const KTLO_FILENAME_RE = /^KTLO-\d{8}-\d+\.md$/;
 
 // --- State ---
 
@@ -471,12 +471,12 @@ function checkFilenameConventions(dir, type) {
         );
       }
     } else if (type === "ktlo") {
-      // KTLO files: description-8charhash.md
+      // KTLO files: KTLO-YYYYMMDD-NN.md
       if (!KTLO_FILENAME_RE.test(file)) {
         error(
           filePath,
           "filename-convention",
-          `Filename "${file}" does not match KTLO pattern description-8charhash.md (8 lowercase alphanumeric chars)`
+          `Filename "${file}" does not match KTLO pattern KTLO-YYYYMMDD-NN.md (e.g., KTLO-20260829-001.md)`
         );
       }
     }

@@ -61,7 +61,7 @@ docs/
 ktlo/
   index.md
   template.md
-  description-8charhash.md
+  KTLO-YYYYMMDD-NN.md
 ```
 
 ### Filename conventions
@@ -72,10 +72,10 @@ ktlo/
 - The date is the creation date of the document
 
 **KTLO files**:
-- Pattern: `description-8charhash.md`
-- Example: `require-short-uuid-stable-id-for-ktlo-items-qhbjycw9.md`
-- The 8-char hash is a short random alphanumeric string (lowercase letters and numbers)
-- This provides stable, unique identifiers without sequential numbering
+- Pattern: `KTLO-YYYYMMDD-NN.md`
+- Example: `KTLO-20260829-001.md`
+- `KTLO` is a literal prefix; `YYYYMMDD` is the creation date; `NN` is a sequential number (zero-padded, two or more digits) assigned per day
+- This provides stable, human-readable, chronologically sortable identifiers
 
 Every directory with Markdown has an `index.md`. Every `index.md` links to its
 parent, siblings, and immediate children using relative links only.
