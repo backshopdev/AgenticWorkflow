@@ -1,4 +1,4 @@
-# Agentic Workflow
+# OpenCode Roundhouse
 
 A reusable multi-agent [OpenCode](https://opencode.ai) workflow for structured document authoring. This repository also includes a purpose-built workflow that maintains and evolves the template — built on the same core principles, but designed specifically for that task.
 
