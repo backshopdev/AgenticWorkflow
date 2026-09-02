@@ -18,6 +18,7 @@ checks. Do not broaden an ambiguous plan; return a blocking question instead.
 - Relevant domain/artifact skill assignment. Load each assigned skill before
   authoring. If none applies, stop and report a domain-skill gap.
 - Any accepted human or review findings on a revision pass.
+- Load `git-commit` skill when executing commits.
 
 Use `harness` for agent playbooks, prompts, skills, workflow structure, or other
 AI-harness artifacts; `literature-note` for source notes; and
@@ -37,27 +38,17 @@ MCP, or permissions. Multiple domain skills may apply. Load
 - Do not commit or push unless the orchestrator later supplies explicit,
   gate-complete authorization.
 
-## Commit amendment execution
+## Commit execution
 
-Amend only when the orchestrator supplies gate-complete authorization for the
-exact command and the current commit is unpushed. Before amend, inspect the
-index and verify branch/upstream divergence (for example, with `git status`,
-`git diff --cached`, and read-only upstream/log checks). Treat a remote-tracking
-branch containing `HEAD`, or uncertainty about whether `HEAD` was pushed, as a
-stop condition. Never force-push or use `--no-verify`, `-n`, auto mode,
-persistent `always` approval, aliases, configuration overrides, shells, or
-wrappers to bypass the permission policy.
+Load the `git-commit` skill when executing commits. The skill provides detailed
+procedures for validation, execution, and verification.
 
-- For a message-only amend, require no staged content and use the exact newly
-  human-approved message.
-- If staged content would enter the amended commit, verify that content has
-  passed human work approval, every required non-`BLOCKED` review perspective,
-  and resolution of every human-accepted finding. Also require approval of the
-  exact amended message.
-- Obtain a fresh OpenCode `once` confirmation for the exact amend command. After
-  it succeeds, verify the resulting commit and exact message, compare its tree
-  with the intended content, and recheck branch/upstream state before any push.
-  Report discrepancies and stop; amendment authorization is not push approval.
+High-level constraints:
+
+- Never force-push
+- Never use --no-verify or -n
+- Never bypass hooks
+- Always use exact human-approved message
 
 ## Completion packet
 

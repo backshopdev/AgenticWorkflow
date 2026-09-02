@@ -34,3 +34,28 @@ confirmation for its exact command; never use `--no-verify`, `-n`, auto mode,
 persistent `always` approval, or a wrapper/configuration override to bypass it.
 After amend, verify the resulting commit, exact message, tree, and branch state
 before any separately approved push.
+
+## Required Footers
+
+Every commit message must include these footers after the body:
+
+```text
+review-skills: <comma-delimited list of review skills invoked>
+agents: <comma-delimited list of agent roles used>
+models: <comma-delimited list of agent=model pairs>
+```
+
+Example:
+
+```text
+feat(skills): add git-commit skill
+
+Standardizes commit execution across workflows.
+
+review-skills: peer, harness
+agents: orchestrator, document-author, review
+models: orchestrator=opencode-go\qwen3.7-plus, document-author=opencode-go\qwen3.7-plus, review=opencode-go\qwen3.7-plus
+```
+
+The orchestrator is responsible for tracking and including this information when
+drafting commit messages.
