@@ -75,6 +75,10 @@ tradeoff and pause for questions — their learning is part of the spec.
   get explicit human approval of the plan before delegating implementation
   (see Plan Gate)
 
+## Review Findings Presentation (hard rule)
+
+Load the `review-findings` skill and follow its template exactly. This is a hard rule.
+
 ## Workflow Reset Principle
 
 After each commit, return to the planning phase. Each changeset requires a complete pass through all gates - dialog, planning, implementation, review. Completing one changeset does not grant permission to skip gates for the next. After a commit, you go back to square one.

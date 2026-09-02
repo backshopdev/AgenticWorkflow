@@ -37,28 +37,6 @@ Read outward as needed, but anchor every finding to a session change. Evaluate
 the complete assigned combination as one meaningful perspective; do not assume
 another review session will cover omitted checks.
 
-## Completion packet
+## Completion packet (hard rule)
 
-```text
-REVIEW PACKET — <session/changeset id>
-skills-loaded: peer + <domain skill(s)> [+ security]
-verdict: APPROVE | FINDINGS | BLOCKED
-findings:
-  - id: <stable local id>
-    file: <path>:<location>
-    what: <specific issue>
-    why: <impact>
-    severity: nit | should | blocker
-    suggested-change: <concrete change>
-    confidence: low | med | high
-integration-notes: <cross-file observations or none>
-assumptions/open-questions: <material assumptions, unresolved evidence needs, or none>
-```
-
-Findings are advisory until authoritative human triage. Do not resolve a
-substantive disagreement with another session; preserve your rationale. The
-orchestrator preserves this packet's verdict and skill/session provenance after
-triage; a human dismissal does not require a replacement `APPROVE` verdict.
-Use only lowercase `blocker | should | nit` finding severities. Include material
-assumptions and open questions even when the verdict is `APPROVE`; a `BLOCKED`
-packet reports the routing defect and does not complete its perspective.
+Load the `review-findings` skill and follow its template exactly. This is a hard rule.

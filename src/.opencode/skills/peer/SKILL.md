@@ -62,9 +62,11 @@ changes and criteria. Do not turn review into an audit of unrelated legacy debt.
 
 | Level | Use when | Do not use for |
 | --- | --- | --- |
-| `blocker` | Unsafe, invalid, data-losing, or criterion-defeating | Prefer |
-| `should` | Material correctness, completeness, integration risk | Polish |
-| `nit` | Low-cost clarity or consistency improvement | Noise |
+| `Critical` | Unsafe, invalid, data-losing, or criterion-defeating issue that blocks progress | Mere preference or minor risk |
+| `Major` | Material correctness, completeness, or integration issue with significant impact | Low-risk polish or optional enhancement |
+| `Medium` | Maintenance risk, clarity gap, or integration concern that should be addressed | Nit-level style preference |
+| `Low` | Minor clarity or consistency improvement with limited impact | Noise with no reader impact |
+| `Nit` | Trivial style, formatting, or wording preference | Substantive issue requiring discussion |
 
 State confidence as high when directly demonstrated, medium when a plausible
 path depends on an explicit assumption, and low only when uncertainty itself is
@@ -93,7 +95,7 @@ affected.
 Inspect the complete changed artifact and enough neighboring context to evaluate
 integration. Map criteria to evidence, assess objective-check coverage, and
 distinguish observed facts from inferred consequences. Each actionable finding
-should include one lowercase `blocker | should | nit` severity, confidence,
+should include one `Critical | Major | Medium | Low | Nit` severity, confidence,
 anchor, impact, and suggested direction.
 
 Escalate when criteria conflict, the domain skill is missing, effective behavior
