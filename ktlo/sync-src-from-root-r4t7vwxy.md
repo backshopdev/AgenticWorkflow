@@ -1,5 +1,8 @@
 # KTLO 003: Keep `src/` copies in sync with root (source-of-truth)
 
+Status: Active
+Last modified: 2026-08-29
+
 Type: `[template]` maintenance item — owned by the template repo.
 
 ## Why this exists

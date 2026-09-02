@@ -55,6 +55,7 @@
           "git status *": "allow",
           "git log": "allow",
           "git log *": "allow",
+          "node .opencode/docs-check.js": "allow",
           "npx --yes markdownlint-cli2@0.23.2": "allow",
           "npx --yes markdownlint-cli2@0.23.2 *": "allow",
           "opencode debug config": "allow",
@@ -111,7 +112,10 @@
           "literature-note": "allow",
           "opencode-configuration": "allow",
           "planning-structure": "allow",
-          "commit-convention": "allow"
+          "commit-convention": "allow",
+          "decision-record": "allow",
+          "repository-documentation": "allow",
+          "docs-check": "allow"
         }
       }
     },

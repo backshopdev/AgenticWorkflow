@@ -31,38 +31,51 @@ docs/
   decisions/
     index.md
     template.md
-    DEC-YYYYMMDD-NN.md
+    YYYY-MM-DD-description.md
     archive/
       index.md
   specs/
     index.md
     template.md
-    SPEC-YYYYMMDD-NN.md
+    YYYY-MM-DD-description.md
     archive/
       index.md
   plans/
     index.md
     template.md
-    PLAN-YYYYMMDD-NN.md
+    YYYY-MM-DD-description.md
     archive/
       index.md
   architecture/
     index.md
     template.md
-    ARCH-YYYYMMDD-NN.md
+    YYYY-MM-DD-description.md
   implementation-maps/
     index.md
     template.md
-    IMPL-YYYYMMDD-NN.md
+    YYYY-MM-DD-description.md
   contracts/
     index.md
     template.md
-    CON-YYYYMMDD-NN.md
+    YYYY-MM-DD-description.md
 ktlo/
   index.md
   template.md
-  KTLO-YYYYMMDD-NN.md
+  description-8charhash.md
 ```
+
+### Filename conventions
+
+**Docs files** (decisions, specs, plans, architecture, implementation-maps, contracts):
+- Pattern: `YYYY-MM-DD-description.md`
+- Example: `2026-09-01-location-search-service.md`
+- The date is the creation date of the document
+
+**KTLO files**:
+- Pattern: `description-8charhash.md`
+- Example: `require-short-uuid-stable-id-for-ktlo-items-qhbjycw9.md`
+- The 8-char hash is a short random alphanumeric string (lowercase letters and numbers)
+- This provides stable, unique identifiers without sequential numbering
 
 Every directory with Markdown has an `index.md`. Every `index.md` links to its
 parent, siblings, and immediate children using relative links only.
@@ -111,9 +124,9 @@ Contracts define interfaces between system components:
 - Event contracts (JSON Schema).
 - Configuration contracts (JSON Schema).
 
-Each contract has a stable ID (`CON-YYYYMMDD-NN`) and lives in
-`docs/contracts/`. Contract guides provide human-readable usage documentation.
-Generated reference documentation is derived from machine contracts.
+Each contract uses the date-based filename convention (`YYYY-MM-DD-description.md`)
+and lives in `docs/contracts/`. Contract guides provide human-readable usage
+documentation. Generated reference documentation is derived from machine contracts.
 
 ## Index and link discipline
 

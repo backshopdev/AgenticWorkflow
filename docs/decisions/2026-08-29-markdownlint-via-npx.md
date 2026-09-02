@@ -1,8 +1,9 @@
 # Decision 0001: Markdown linting via `npx`, no `package.json`
 
-- **Status:** Accepted
-- **Date:** 2026-08-29
-- **Context owner:** (workflow harness repo)
+Status: Active
+Last modified: 2026-08-29
+Date: 2026-08-29
+Context owner: (workflow harness repo)
 
 ## Context
 The harness repo's entire product is Markdown + JSON (AGENTS.md, docs/, ktlo/, references/, .opencode/ skills). For a code project the worker runs a code linter/tests/build; the equivalent objective signal here is a **Markdown style/structure lint**, run by the document-author. We chose `markdownlint-cli2` (the author's recommended CLI; same engine as `markdownlint`, with glob/ignore config + `--fix`).

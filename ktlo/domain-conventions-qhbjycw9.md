@@ -1,5 +1,8 @@
 # KTLO: Domain Conventions
 
+Status: Active
+Last modified: 2026-08-29
+
 This is a template KTLO item owned by the template repo. Do not edit directly in consuming repos - instead, update the template repo and pull changes, or add a project-specific override.
 
 ## Template Content Placeholder
@@ -20,11 +23,11 @@ This is a template KTLO item owned by the template repo. Do not edit directly in
 - Names that conflict with framework conventions
 
 ### How to Add Project-Specific Conventions
-1. Create `ktlo/ktlo-item-{short-hash}.md` marked `[project]`
+1. Create `ktlo/description-8charhash.md` marked `[project]`
 2. Override or extend the template conventions as needed
 3. Reference both template and project items in `KTLO/index.md`
 
 ### When to Pull Template Updates
-- When template repo updates `001-domain-conventions.md`
+- When template repo updates `domain-conventions-qhbjycw9.md`
 - Review changes for relevance to your project
 - Manually merge or replace as appropriate
