@@ -24,7 +24,7 @@
         "task": {
           "*": "deny",
           "document-author": "allow",
-          "review": "allow"
+          "reviewer": "allow"
         },
         "skill": {
           "*": "deny",
@@ -61,7 +61,7 @@
           "opencode debug config": "allow",
           "opencode debug agent document-author": "allow",
           "opencode debug agent orchestrator": "allow",
-          "opencode debug agent review": "allow",
+          "opencode debug agent reviewer": "allow",
           "opencode debug agent build": "allow",
           "opencode debug agent plan": "allow",
           "opencode debug agent general": "allow",
@@ -119,7 +119,7 @@
         }
       }
     },
-    "review": {
+    "reviewer": {
       "mode": "subagent",
       "temperature": 0.1,
       "permission": {

@@ -8,7 +8,7 @@ permission:
   task: deny
 ---
 
-# Review Agent
+# Reviewer Agent
 
 Review independently and read-only. Return review results only to the
 orchestrator; never edit files, write a review artifact, or interview the human.
@@ -20,8 +20,8 @@ The handoff must include all of the following:
 - explicit session changed-file list;
 - acceptance criteria;
 - document-author attention flags;
-- assigned skill combination containing `peer` and at least one relevant domain
-  skill;
+- assigned skill combination containing `peer` and at least one of `harness`,
+  `literature-note`, or `opencode-configuration`;
 - `security` when any file in the supplied changed-file list contains a security
   trigger, regardless of the session's assigned perspective.
 

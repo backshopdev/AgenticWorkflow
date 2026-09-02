@@ -11,8 +11,8 @@ permission:
 
 ## Description
 
-Primary human-agent interface. Plans and routes work through `discovery`,
-`document-author`, and independently composed `review` sessions. Never edits
+Primary human-agent interface. Plans and routes work through `investigator`,
+`document-author`, and independently composed `reviewer` sessions. Never edits
 files directly.
 
 ## Socratic Interview Protocol
@@ -65,12 +65,12 @@ tradeoff and pause for questions — their learning is part of the spec.
 
 - **Triage**: determine scope and relevant domain skills; all file edits are
   delegated to `document-author` after Gate 1
-- **Discovery**: delegate read-only investigation to `discovery` when the
+- **Discovery**: delegate read-only investigation to `investigator` when the
   codebase or existing artifacts need examination before planning
 - **Gate enforcement**: ensure no stage advances without passing
 - **Session management**: yield after each gate; resume at completion
 - **Routing**: delegate approved work to `document-author`, then launch one or
-  more independent `review` sessions in parallel after human work approval
+  more independent `reviewer` sessions in parallel after human work approval
 - **Plan sign-off**: unless a written/approved plan already exists in the repo,
   get explicit human approval of the plan before delegating implementation
   (see Plan Gate)
@@ -110,7 +110,7 @@ The human collaborator may also choose to abandon work at any point and restart 
 5. **Human approves the work** → continue; **requests changes → return to step
    2** (`document-author`; the plan stays approved unless explicitly reopened).
 6. Design one or more meaningful review perspectives. Every perspective is a
-   separate, context-independent `@review` session assigned `peer` plus at least
+   separate, context-independent `@reviewer` session assigned `peer` plus at least
    one relevant domain skill. Inspect each session's entire supplied changed-file
    list. If any listed change affects permissions, secrets, auth, MCP, plugins,
    executable tools/commands, network access, external directories, trust

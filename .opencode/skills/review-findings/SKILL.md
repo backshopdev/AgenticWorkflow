@@ -6,14 +6,14 @@ description: Use when presenting review findings in a completion packet or conso
 # Review Findings
 
 This skill defines the mandatory template format for all review-findings
-presentation. Both review agents (detailed packets) and the orchestrator
+presentation. Both reviewer agents (detailed packets) and the orchestrator
 (concise summaries) MUST use this exact structure.
 
 ## When to use
 
 Load this skill when:
 
-- Authoring a review completion packet as a `review` agent.
+- Authoring a review completion packet as a `reviewer` agent.
 - Presenting consolidated review findings to the human as the orchestrator.
 - Any context that requires structured review-findings output.
 

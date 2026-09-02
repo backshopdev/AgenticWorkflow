@@ -9,7 +9,7 @@ document authoring, independent review, and publication.
 2. Describe the documentation goal.
 3. The orchestrator conducts a Socratic interview and drafts an authoring brief.
 4. Approve the plan (Gate 1).
-5. The orchestrator delegates to `discovery`, `document-author`, and `review`.
+5. The orchestrator delegates to `investigator`, `document-author`, and `reviewer`.
 6. Inspect authored files and triage review findings.
 7. Approve the commit message and confirm the commit.
 
@@ -37,7 +37,7 @@ files by default.
 
 | When | Read | Purpose |
 | --- | --- | --- |
-| Understanding the end-to-end workflow | [`AGENTIC_WORKFLOW.md`](AGENTIC_WORKFLOW.md) | Learn agent roles, authoring and discovery workflows, remediation flow, routing table, HITL gates, and key rules; routing table directs to skills for document authority, validation, publication, and other detailed procedures |
+| Understanding the end-to-end workflow | [`AGENTIC_WORKFLOW.md`](AGENTIC_WORKFLOW.md) | Learn agent roles, authoring and investigation workflows, remediation flow, routing table, HITL gates, and key rules; routing table directs to skills for document authority, validation, publication, and other detailed procedures |
 | Authoring or reviewing an artifact | Applicable domain skill | Load artifact-specific or review-lens procedures |
 | Validating documentation | `docs-check` skill or document-author responsibilities | Run and interpret objective checks (markdown lint, JSON validation, link/index validation, frontmatter, secrets) |
 | Preparing a commit | `commit-convention` skill | Apply the normative commit grammar and amendment rules |

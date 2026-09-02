@@ -37,7 +37,7 @@
    - Orchestrator: plan + Socratic interview, then Gate 1 sign-off.
    - document-author: executes the approved plan and returns a completion
      packet.
-   - Review Agent: independent parallel sessions composed from peer, domain,
+   - Reviewer Agent: independent parallel sessions composed from peer, domain,
      and conditional security skills.
 3. Check `docs/` for artifacts at each stage.
 

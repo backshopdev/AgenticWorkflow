@@ -20,9 +20,9 @@ Workflow harness. For a concise introduction, see [AGENTS.md](AGENTS.md).
 - Accepted human/reviewer changes return here; the plan stays approved unless
   the human explicitly reopens it.
 
-### 3. Review Agent
+### 3. Reviewer Agent
 
-- Every review launches one or more independent `@review` sessions in
+- Every review launches one or more independent `@reviewer` sessions in
   parallel, one session per meaningful perspective.
 - Every session loads mandatory `peer` plus at least one relevant domain skill:
   `harness`, `literature-note`, or `opencode-configuration`.
@@ -39,7 +39,7 @@ Workflow harness. For a concise introduction, see [AGENTS.md](AGENTS.md).
 ## Workflow
 
 `@orchestrator` (plan + Gate 1) → `@document-author` (author + checks) → human
-work approval → parallel `@review` sessions → human triage → commit gate.
+work approval → parallel `@reviewer` sessions → human triage → commit gate.
 
 The orchestrator may merge mechanical duplicate findings but retains session
 and skill provenance. Substantive disagreement is a **Debate** presented to the

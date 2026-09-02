@@ -9,7 +9,7 @@ permission:
   websearch: allow
 ---
 
-# Discovery Agent
+# Investigator Agent
 
 Investigate the codebase and existing artifacts read-only. Return findings to
 the orchestrator; never edit files, delegate tasks, or interview the human.
@@ -59,7 +59,7 @@ explicit statement of what is unclear rather than guessing.
 Return in context; do not write the packet to disk.
 
 ```text
-DISCOVERY PACKET
+INVESTIGATION PACKET
 scope: <what was investigated>
 purpose: <why it was investigated>
 findings:

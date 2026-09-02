@@ -25,7 +25,7 @@ To use this workflow in your own repository:
 
 What you get:
 
-- Four agent roles (orchestrator, discovery, document-author, review) configured in `opencode.json` with prompt files in `.opencode/agents/`
+- Four agent roles (orchestrator, investigator, document-author, reviewer) configured in `opencode.json` with prompt files in `.opencode/agents/`
 - Skills for planning, commit conventions, peer review, security, and domain-specific authoring
 - A structured docs layout (`docs/decisions/`, `docs/specs/`, `docs/plans/`, `docs/architecture/`, `docs/contracts/`, `docs/implementation-maps/`)
 - Markdown validation via `markdownlint-cli2` (config not included; adopters provide their own) and a docs-check script
@@ -38,15 +38,15 @@ The template workflow in `src/` runs as follows. The orchestration loop:
 
 ```text
 @orchestrator (plan + Gate 1) → @document-author (author + checks) → human
-work approval → parallel @review sessions → human triage → commit gate
+work approval → parallel @reviewer sessions → human triage → commit gate
 ```
 
 Four agent roles with distinct authority:
 
 - **Orchestrator** — the human interface; runs Socratic planning, enforces gates, delegates work, composes review perspectives from skills, consolidates findings, and manages commit approval. Never edits files.
-- **Discovery** — investigates the current state of the codebase and documentation; reads files, searches code, runs read-only git commands, and searches the web for reference material. Cannot edit files or delegate tasks.
+- **Investigator** — investigates the current state of the codebase and documentation; reads files, searches code, runs read-only git commands, and searches the web for reference material. Cannot edit files or delegate tasks.
 - **document-author** — implements the approved plan in isolated context; loads relevant skills, runs objective checks, and returns a completion packet. Accepted human or reviewer changes return here; the plan stays approved unless the human explicitly reopens it.
-- **Review** — independent read-only sessions in parallel, each loading `peer` plus a domain skill (`harness`, `literature-note`, or `opencode-configuration`); `security` joins when changes touch sensitive areas. The orchestrator presents findings to the human, who triages and may dismiss any — findings are inputs, not verdicts.
+- **Reviewer** — independent read-only sessions in parallel, each loading `peer` plus a domain skill (`harness`, `literature-note`, or `opencode-configuration`); `security` joins when changes touch sensitive areas. The orchestrator presents findings to the human, who triages and may dismiss any — findings are inputs, not verdicts.
 
 Two human gates control every changeset:
 
@@ -69,7 +69,7 @@ For full workflow mechanics — role detail, HITL gate enforcement, permission m
 
 - **Root** — production workflow; uses itself to maintain the template. Contains `AGENTS.md`, `AGENTIC_WORKFLOW.md`, `CONTRIBUTING.md`, `guiding-principles.md`, `opencode.json`, `.markdownlint-cli2.jsonc`, and other files.
 - **`src/`** — reusable template; copy this into a consuming repo. Mirrors the root structure with its own `.opencode/`, `docs/`, `ktlo/`, and top-level docs.
-- **`.opencode/`** (root) — agents (orchestrator, document-author, review), skills (planning-structure, commit-convention, peer, security, harness, literature-note, opencode-configuration), and plugin configuration.
+- **`.opencode/`** (root) — agents (orchestrator, document-author, reviewer), skills (planning-structure, commit-convention, peer, security, harness, literature-note, opencode-configuration), and plugin configuration.
 - **`docs/`** — durable artifacts: decisions, specs, and plans
 - **`ktlo/`** — keep-the-lights-on operational items (domain conventions, coding standards, sync procedures)
 - **`references/`** — literature notes that informed the guiding principles

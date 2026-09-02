@@ -22,9 +22,9 @@
         "question": "allow",
         "task": {
           "*": "deny",
-          "discovery": "allow",
+          "investigator": "allow",
           "document-author": "allow",
-          "review": "allow"
+          "reviewer": "allow"
         },
         "skill": {
           "*": "deny",
@@ -33,7 +33,7 @@
         }
       }
     },
-    "discovery": {
+    "investigator": {
       "mode": "subagent",
       "temperature": 0.2,
       "permission": {
@@ -126,7 +126,7 @@
         }
       }
     },
-    "review": {
+    "reviewer": {
       "mode": "subagent",
       "temperature": 0.1,
       "permission": {

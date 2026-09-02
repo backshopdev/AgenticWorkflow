@@ -13,9 +13,9 @@ interviews, drafts authoring briefs, delegates work to subagents, presents
 review findings to the human, and manages the commit gate. It never edits files
 directly. See `.opencode/agents/orchestrator.md` for the full protocol.
 
-### 2. Discovery (subagent)
+### 2. Investigator (subagent)
 
-The discovery agent investigates the current state of the codebase and
+The investigator agent investigates the current state of the codebase and
 documentation. It reads files, searches code, runs read-only git commands, and
 searches the web. It cannot edit files, delegate tasks, or fetch URLs. It
 returns structured findings to the orchestrator.
@@ -27,13 +27,13 @@ creates and edits documentation files, runs validation checks, and returns a
 completion packet. It cannot delegate tasks. See
 `.opencode/agents/document-author.md` for the full contract.
 
-### 4. Review (subagent)
+### 4. Reviewer (subagent)
 
-The review agent provides independent, read-only review. It loads `peer` plus
+The reviewer agent provides independent, read-only review. It loads `peer` plus
 at least one relevant domain or lens skill, inspects the changed-file list and
 acceptance criteria, and reports findings with severity, confidence, and
 evidence. Multiple review sessions may run in parallel. See
-`.opencode/agents/review.md` for the invocation contract.
+`.opencode/agents/reviewer.md` for the invocation contract.
 
 ## Skill Architecture
 
@@ -93,11 +93,11 @@ back to square one.
 The human collaborator may choose to abandon work and restart at the planning
 phase at any time. This decision is final and should be respected.
 
-## Discovery Workflow
+## Investigation Workflow
 
-The orchestrator delegates discovery when the current state of the codebase is
+The orchestrator delegates investigation when the current state of the codebase is
 unclear, existing documentation needs assessment, or reference material is
-needed. The discovery agent reads relevant files, searches for patterns, runs
+needed. The investigator agent reads relevant files, searches for patterns, runs
 read-only git commands, searches the web if needed, and returns a structured
 findings report containing scope, purpose, findings, recommendations, and open
 questions. The orchestrator uses these findings to inform planning, skill
