@@ -11,6 +11,11 @@
  *   4. Stale files (in root but not in src) are removed
  *   5. --verify flag works correctly
  *   6. --verify detects discrepancies (negative test)
+ *   7. opencode.json content is synced from src
+ *   8. --verify checks opencode.json integrity
+ *   9. --verify-only detects opencode.json content discrepancy
+ *  10. --verify-only detects missing root opencode.json
+ *  11. Sync fails when src/opencode.json is missing
  *
  * Usage:
  *   node scripts/test-sync.js
@@ -23,6 +28,8 @@ const { execSync } = require("child_process");
 const repoRoot = path.resolve(__dirname, "..");
 const srcDir = path.join(repoRoot, "src", ".opencode");
 const destDir = path.join(repoRoot, ".opencode");
+const srcOpenCodeJson = path.join(repoRoot, "src", "opencode.json");
+const destOpenCodeJson = path.join(repoRoot, "opencode.json");
 const syncScript = path.join(__dirname, "sync-opencode.js");
 
 /**
@@ -267,6 +274,225 @@ if (targetFile) {
   }
 } else {
   assert(false, "Could not find a src file to use for discrepancy test");
+}
+
+// ─── Test 7: opencode.json content is synced from src ───────────────────────
+console.log("\nTest 7: opencode.json content is synced from src");
+try {
+  runSync();
+} catch (err) {
+  assert(false, `Sync ran without error in test 7 (got: ${err.message})`);
+}
+
+assert(
+  fs.existsSync(destOpenCodeJson),
+  "Root opencode.json exists after sync"
+);
+
+const srcJsonContent = fs.readFileSync(srcOpenCodeJson, "utf-8");
+const destJsonContent = fs.readFileSync(destOpenCodeJson, "utf-8");
+assert(
+  srcJsonContent === destJsonContent,
+  "Root opencode.json content matches src/opencode.json byte-for-byte"
+);
+
+// ─── Test 8: --verify checks opencode.json integrity ────────────────────────
+console.log("\nTest 8: --verify checks opencode.json integrity");
+try {
+  const output = runSync("--verify");
+  assert(
+    output.includes("opencode.json matches src/opencode.json"),
+    "--verify output confirms opencode.json integrity"
+  );
+} catch (err) {
+  assert(
+    false,
+    `--verify ran without error in test 8 (got: ${err.message})`
+  );
+}
+
+// ─── Test 9: --verify-only detects opencode.json content discrepancy ────────
+console.log(
+  "\nTest 9: --verify-only detects opencode.json content discrepancy"
+);
+
+// Ensure baseline is in sync
+try {
+  runSync();
+} catch (err) {
+  assert(
+    false,
+    `Baseline sync succeeded in test 9 (got: ${err.message})`
+  );
+}
+
+// Modify root opencode.json to create a content discrepancy
+const originalJsonContent = fs.readFileSync(destOpenCodeJson, "utf-8");
+let test9ResyncError = null;
+try {
+  fs.writeFileSync(
+    destOpenCodeJson,
+    originalJsonContent + "\n// tampered\n",
+    "utf-8"
+  );
+  assert(
+    fs.readFileSync(destOpenCodeJson, "utf-8") !== srcJsonContent,
+    "Root opencode.json modified to create discrepancy"
+  );
+
+  // Run --verify-only and expect failure
+  let test9Output = "";
+  let test9ExitCode = null;
+  try {
+    test9Output = runSync("--verify-only");
+    test9ExitCode = 0;
+  } catch (err) {
+    test9ExitCode = err.status;
+    test9Output = (err.stdout || "") + "\n" + (err.stderr || "");
+  }
+
+  assert(
+    test9ExitCode === 1,
+    `--verify-only exited with code 1 for opencode.json mismatch (got: ${test9ExitCode})`
+  );
+  assert(
+    test9Output.includes("does not match src/opencode.json"),
+    "--verify-only output reports opencode.json content mismatch"
+  );
+} finally {
+  // Always restore root opencode.json, even if setup or verification fails.
+  try {
+    runSync();
+  } catch (err) {
+    test9ResyncError = err;
+  } finally {
+    if (
+      !fs.existsSync(destOpenCodeJson) ||
+      fs.readFileSync(destOpenCodeJson, "utf-8") !== originalJsonContent
+    ) {
+      fs.writeFileSync(destOpenCodeJson, originalJsonContent, "utf-8");
+    }
+  }
+}
+
+if (test9ResyncError) {
+  assert(
+    false,
+    `Re-sync succeeded in test 9 (got: ${test9ResyncError.message})`
+  );
+}
+const restoredJsonContent = fs.readFileSync(destOpenCodeJson, "utf-8");
+assert(
+  restoredJsonContent === srcJsonContent,
+  "Re-sync restored root opencode.json content"
+);
+
+// ─── Test 10: --verify-only detects missing root opencode.json ──────────────
+console.log("\nTest 10: --verify-only detects missing root opencode.json");
+
+// Ensure baseline is in sync
+try {
+  runSync();
+} catch (err) {
+  assert(
+    false,
+    `Baseline sync succeeded in test 10 (got: ${err.message})`
+  );
+}
+
+// Delete root opencode.json to create a missing-file discrepancy
+fs.unlinkSync(destOpenCodeJson);
+assert(
+  !fs.existsSync(destOpenCodeJson),
+  "Root opencode.json deleted to create discrepancy"
+);
+
+// Run --verify-only and expect failure
+let test10Output = "";
+let test10ExitCode = null;
+try {
+  test10Output = runSync("--verify-only");
+  test10ExitCode = 0;
+} catch (err) {
+  test10ExitCode = err.status;
+  test10Output = (err.stdout || "") + "\n" + (err.stderr || "");
+}
+
+assert(
+  test10ExitCode === 1,
+  `--verify-only exited with code 1 for missing opencode.json (got: ${test10ExitCode})`
+);
+assert(
+  test10Output.includes("Missing") &&
+    test10Output.includes("opencode.json"),
+  "--verify-only output reports missing root opencode.json"
+);
+
+// Restore by re-syncing
+try {
+  runSync();
+  assert(
+    fs.existsSync(destOpenCodeJson),
+    "Re-sync restored root opencode.json"
+  );
+} catch (err) {
+  assert(false, `Re-sync succeeded in test 10 (got: ${err.message})`);
+}
+
+// ─── Test 11: Sync fails when src/opencode.json is missing ──────────────────
+console.log("\nTest 11: Sync fails when src/opencode.json is missing");
+
+// Temporarily rename src/opencode.json to simulate its absence
+const tmpSrcJson = srcOpenCodeJson + ".tmp_test_backup";
+let srcJsonWasRenamed = false;
+try {
+  fs.renameSync(srcOpenCodeJson, tmpSrcJson);
+  srcJsonWasRenamed = true;
+  assert(
+    !fs.existsSync(srcOpenCodeJson),
+    "src/opencode.json temporarily removed"
+  );
+
+  // Run sync and expect failure
+  let test11Output = "";
+  let test11ExitCode = null;
+  try {
+    test11Output = runSync();
+    test11ExitCode = 0;
+  } catch (err) {
+    test11ExitCode = err.status;
+    test11Output = (err.stdout || "") + "\n" + (err.stderr || "");
+  }
+
+  assert(
+    test11ExitCode === 1,
+    `Sync exited with code 1 when src/opencode.json missing (got: ${test11ExitCode})`
+  );
+  assert(
+    test11Output.includes("source file not found") ||
+      test11Output.includes("Error"),
+    "Sync error message mentions missing source file"
+  );
+} finally {
+  // Always restore src/opencode.json
+  if (srcJsonWasRenamed && fs.existsSync(tmpSrcJson)) {
+    fs.renameSync(tmpSrcJson, srcOpenCodeJson);
+  }
+}
+
+assert(
+  fs.existsSync(srcOpenCodeJson),
+  "src/opencode.json restored after test"
+);
+
+// Final re-sync to ensure everything is clean for any subsequent runs
+try {
+  runSync();
+} catch (err) {
+  // Non-fatal: just log; the test assertions above are what matter
+  console.error(
+    `  Warning: final cleanup sync failed (got: ${err.message})`
+  );
 }
 
 // ─── Summary ────────────────────────────────────────────────────────────────

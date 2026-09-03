@@ -20,6 +20,10 @@ node_modules/
 # Changes belong in src/.opencode/ and are synced here by `npm run sync-opencode`.
 /.opencode/
 
+# Root opencode.json is a deployed instance of src/opencode.json; never track directly.
+# Changes belong in src/opencode.json and are synced here by `npm run sync-opencode`.
+/opencode.json
+
 # Build output
 dist/
 build/

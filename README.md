@@ -1,6 +1,6 @@
 # OpenCode Roundhouse
 
-A reusable multi-agent [OpenCode](https://opencode.ai) workflow for structured document authoring. This repository also includes a purpose-built workflow that maintains and evolves the template — built on the same core principles, but designed specifically for that task.
+A reusable multi-agent [OpenCode](https://opencode.ai) workflow for structured document authoring. The root of this repository uses the template to maintain and evolve itself.
 
 ## Overview
 
@@ -13,7 +13,7 @@ Human + agent collaboration produces a better whole. This workflow pairs human j
 
 Other approaches work well for their use cases. This is a deliberate choice: we believe the dialogue, gates, and review cycles produce better outcomes than autonomous generation — even when the latter is faster. The partnership itself is the value, and the speed bumps are intentional.
 
-Two workflows live here: the reusable template in `src/` is a general-purpose multi-agent workflow for structured document authoring, and the root workflow is purpose-built to maintain and evolve that template — built on the same core principles (HITL gates, Socratic interviewing, progressive disclosure), but deliberately stripped down and designed specifically for template maintenance. Documentation follows the same agent-driven workflow as code — the workflow is docs-as-code by construction.
+The reusable template lives in `src/`. The root of this repository deploys that template and uses it to maintain and evolve itself — the workflow is docs-as-code by construction.
 
 ## Adopting the Template
 
@@ -21,7 +21,7 @@ To use this workflow in your own repository:
 
 1. Copy the contents of `src/` into your repo root.
 2. Customize the docs outside `.opencode/` for your project — `AGENTS.md`, `AGENTIC_WORKFLOW.md`, `CONTRIBUTING.md`, `BUILDING.md`, `TESTING.md`, and the `docs/`, `ktlo/` directories are yours to adapt.
-3. As the workflow evolves, copy the updated `.opencode/` directory from `src/` into your repo to pick up new skills, agents, and configuration.
+3. As the workflow evolves, copy the updated `.opencode/` directory and `opencode.json` from `src/` into your repo to pick up new skills, agents, and configuration.
 
 What you get:
 
@@ -30,7 +30,7 @@ What you get:
 - A structured docs layout (`docs/decisions/`, `docs/specs/`, `docs/plans/`, `docs/architecture/`, `docs/contracts/`, `docs/implementation-maps/`)
 - Markdown validation via `markdownlint-cli2` (config not included; adopters provide their own) and a docs-check script
 
-The `.opencode/` directory is the workflow engine — agents, skills, and plugin configuration. Copy it from `src/` when you want to adopt the full workflow, or start with just the docs and add `.opencode/` later as your needs mature.
+The `.opencode/` directory and `opencode.json` are the workflow engine — agents, skills, and plugin configuration. Copy them from `src/` when you want to adopt the full workflow, or start with just the docs and add `.opencode/` and `opencode.json` later as your needs mature.
 
 ## Workflow at a Glance
 
@@ -67,9 +67,9 @@ For full workflow mechanics — role detail, HITL gate enforcement, permission m
 
 ## Repository Structure
 
-- **Root** — production workflow; uses itself to maintain the template. Contains `AGENTS.md`, `AGENTIC_WORKFLOW.md`, `CONTRIBUTING.md`, `guiding-principles.md`, `opencode.json`, `.markdownlint-cli2.jsonc`, and other files.
+- **Root** — deployed instance of the template; uses itself to maintain the template. Contains `AGENTS.md`, `AGENTIC_WORKFLOW.md`, `CONTRIBUTING.md`, `guiding-principles.md`, `opencode.json`, `.markdownlint-cli2.jsonc`, and other files. Root `.opencode/` and `opencode.json` are deployed (gitignored) copies of `src/`.
 - **`src/`** — reusable template; copy this into a consuming repo. Mirrors the root structure with its own `.opencode/`, `docs/`, `ktlo/`, and top-level docs.
-- **`.opencode/`** (root) — agents (orchestrator, document-author, reviewer), skills (planning-structure, commit-convention, peer, security, harness, literature-note, opencode-configuration), and plugin configuration.
+- **`.opencode/`** (root) — deployed (gitignored) copy of `src/.opencode/`; agents (orchestrator, document-author, reviewer), skills (planning-structure, commit-convention, peer, security, harness, literature-note, opencode-configuration), and plugin configuration.
 - **`docs/`** — durable artifacts: decisions, specs, and plans
 - **`ktlo/`** — keep-the-lights-on operational items (domain conventions, coding standards, sync procedures)
 - **`references/`** — literature notes that informed the guiding principles

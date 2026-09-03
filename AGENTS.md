@@ -46,17 +46,19 @@ files by default.
 
 ## OpenCode Synchronization
 
-Root `.opencode/` is a deployed instance of `src/.opencode/`. It is gitignored
-and never edited directly. All changes to agents, skills, workflow-docs, or
-`docs-check.js` must be made in `src/.opencode/` first, then synced to root:
+Root `.opencode/` and `opencode.json` are deployed instances of `src/.opencode/`
+and `src/opencode.json`. They are gitignored and never edited directly. All
+changes to agents, skills, workflow-docs, `docs-check.js`, or `opencode.json`
+must be made in `src/` first, then synced to root:
 
 ```bash
 npm run sync-opencode
 ```
 
-The sync copies `src/.opencode/` over root `.opencode/`, overwriting stale
-files. Root-only artifacts (`node_modules/`, `data/`, `package.json`,
-`.gitignore`) are preserved because they do not exist in `src/`.
+The sync copies `src/.opencode/` over root `.opencode/` and `src/opencode.json`
+over root `opencode.json`, overwriting stale files. Root-only artifacts
+(`node_modules/`, `data/`, `package.json`, `.gitignore`) are preserved because
+they do not exist in `src/`.
 
 Run `npm run test-sync` to execute the automated test suite for the sync
 script. It verifies sync correctness, root-only artifact preservation, stale

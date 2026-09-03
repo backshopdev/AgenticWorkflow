@@ -5,8 +5,9 @@
  * sync-opencode.js
  *
  * Copies the authoritative src/.opencode/ tree to the root .opencode/
- * deployment directory. The root copy is a deployed instance; all changes
- * must be made in src/ first and then synced here.
+ * deployment directory, and src/opencode.json to root opencode.json.
+ * The root copies are deployed instances; all changes must be made in
+ * src/ first and then synced here.
  *
  * Idempotent: safe to run multiple times. Overwrites existing files with
  * the src/ versions. Removes stale files from root that no longer exist
@@ -26,6 +27,8 @@ const path = require("path");
 const repoRoot = path.resolve(__dirname, "..");
 const srcDir = path.join(repoRoot, "src", ".opencode");
 const destDir = path.join(repoRoot, ".opencode");
+const srcOpenCodeJson = path.join(repoRoot, "src", "opencode.json");
+const destOpenCodeJson = path.join(repoRoot, "opencode.json");
 
 /**
  * Root-only artifacts that must NEVER be deleted during stale-file removal.
@@ -131,6 +134,41 @@ function removeStaleFiles() {
 }
 
 /**
+ * Copy src/opencode.json to root opencode.json.
+ */
+function syncOpenCodeJson() {
+  if (!fs.existsSync(srcOpenCodeJson)) {
+    console.error(`Error: source file not found: ${srcOpenCodeJson}`);
+    process.exit(1);
+  }
+  fs.copyFileSync(srcOpenCodeJson, destOpenCodeJson);
+  console.log(`Synced: ${srcOpenCodeJson} -> ${destOpenCodeJson}`);
+}
+
+/**
+ * Verify that root opencode.json matches src/opencode.json.
+ */
+function verifyOpenCodeJson() {
+  if (!fs.existsSync(srcOpenCodeJson)) {
+    console.error(`Error: source file not found: ${srcOpenCodeJson}`);
+    process.exit(1);
+  }
+  if (!fs.existsSync(destOpenCodeJson)) {
+    console.error("Integrity verification FAILED:");
+    console.error("  Missing: root opencode.json does not exist");
+    process.exit(1);
+  }
+  const srcContent = fs.readFileSync(srcOpenCodeJson, "utf-8");
+  const destContent = fs.readFileSync(destOpenCodeJson, "utf-8");
+  if (srcContent !== destContent) {
+    console.error("Integrity verification FAILED:");
+    console.error("  root opencode.json does not match src/opencode.json");
+    process.exit(1);
+  }
+  console.log("Integrity verification passed: root opencode.json matches src/opencode.json.");
+}
+
+/**
  * Verify that root .opencode/ contains exactly the files from
  * src/.opencode/ plus the ROOT_ONLY artifacts.
  */
@@ -199,9 +237,10 @@ function syncOpenCode() {
     process.exit(1);
   }
 
-  // If --verify-only, skip sync and only run integrity check
+  // If --verify-only, skip sync and only run integrity checks
   if (flags.verifyOnly) {
     verifyIntegrity();
+    verifyOpenCodeJson();
     return;
   }
 
@@ -242,11 +281,15 @@ function syncOpenCode() {
   // Remove stale files that exist in root but not in src
   removeStaleFiles();
 
-  console.log("Root .opencode/ is now up to date with src/.opencode/.");
+  // Sync src/opencode.json to root opencode.json
+  syncOpenCodeJson();
+
+  console.log("Root .opencode/ and opencode.json are now up to date with src/.");
 
   // Optional integrity verification
   if (flags.verify) {
     verifyIntegrity();
+    verifyOpenCodeJson();
   }
 }
 

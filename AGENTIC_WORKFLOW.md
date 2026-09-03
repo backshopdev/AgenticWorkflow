@@ -93,20 +93,22 @@ Markdown or an immediate child's `index.md`; no deep or absolute links.
 
 ## Root/Template Synchronization
 
-Root `.opencode/` is a deployed instance of `src/.opencode/`. The source of
-truth for agents, skills, workflow-docs, and `docs-check.js` is `src/.opencode/`.
-Root `.opencode/` is gitignored; never edit it directly.
+Root `.opencode/` and `opencode.json` are deployed instances of
+`src/.opencode/` and `src/opencode.json`. The source of truth for agents,
+skills, workflow-docs, `docs-check.js`, and `opencode.json` is `src/`. Root
+`.opencode/` and root `opencode.json` are gitignored; never edit them directly.
 
-After any change to `src/.opencode/`, sync to root:
+After any change to `src/.opencode/` or `src/opencode.json`, sync to root:
 
 ```bash
 npm run sync-opencode
 ```
 
 The sync script (`scripts/sync-opencode.js`) copies `src/.opencode/` over root
-`.opencode/`, overwriting stale files. Root-only artifacts (`node_modules/`,
-`data/`, `package.json`, `.gitignore`) are preserved because they do not exist
-in `src/`. The script is idempotent and platform-independent.
+`.opencode/` and `src/opencode.json` over root `opencode.json`, overwriting
+stale files. Root-only artifacts (`node_modules/`, `data/`, `package.json`,
+`.gitignore`) are preserved because they do not exist in `src/`. The script is
+idempotent and platform-independent.
 
 When a task changes both `src/` and root artifacts, change `src/` first, then
 sync. The document-author must verify synchronization as part of objective
