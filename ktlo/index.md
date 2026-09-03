@@ -9,6 +9,7 @@ Operational "keep the lights on" items. Links are relative, same-directory only 
 
 ## Project-Specific KTLO (customize freely - add your own items)
 - [Consider adding domain-skills and review-verdicts to commit footers](./KTLO-20260902-001.md) - `[project]`
+- [Documentation Issues Are Always Blockers](./KTLO-20260903-001.md) - `[project]`
 - Add new items as `ktlo/KTLO-YYYYMMDD-NN.md` marked `[project]` and linked from this index
 
-Total: 3 template + 1 project
+Total: 3 template + 2 project

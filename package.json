@@ -4,7 +4,8 @@
   "private": true,
   "description": "Operational harness for human-agent collaboration workflow",
   "scripts": {
-    "sync-opencode": "node scripts/sync-opencode.js"
+    "sync-opencode": "node scripts/sync-opencode.js",
+    "test-sync": "node scripts/test-sync.js"
   },
   "license": "MIT"
 }

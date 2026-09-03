@@ -58,6 +58,11 @@ The sync copies `src/.opencode/` over root `.opencode/`, overwriting stale
 files. Root-only artifacts (`node_modules/`, `data/`, `package.json`,
 `.gitignore`) are preserved because they do not exist in `src/`.
 
+Run `npm run test-sync` to execute the automated test suite for the sync
+script. It verifies sync correctness, root-only artifact preservation, stale
+file removal, and `--verify` integrity checks (including discrepancy
+detection).
+
 ## Authority and Autonomy
 
 Agent authority is governed by the [autonomy model](src/.opencode/workflow-docs/autonomy/index.md).
