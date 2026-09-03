@@ -1,0 +1,10 @@
+{
+  "name": "agentic-workflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Operational harness for human-agent collaboration workflow",
+  "scripts": {
+    "sync-opencode": "node scripts/sync-opencode.js"
+  },
+  "license": "MIT"
+}

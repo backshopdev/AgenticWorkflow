@@ -16,8 +16,9 @@ node_modules/
 **/.env.*
 .settings.local
 
-# OpenCode session state
-.opencode/runtime-state/
+# Root .opencode/ is a deployed instance of src/.opencode/; never track directly.
+# Changes belong in src/.opencode/ and are synced here by `npm run sync-opencode`.
+/.opencode/
 
 # Build output
 dist/
@@ -29,12 +30,6 @@ ktlo/scratch/
 
 # Workflow state (generated per session)
 WORKFLOW_STATE.md
-
-# OpenCode cache
-.opencode/cache/
-
-# OpenCode plugin runtime state (workflows.db + WAL/SHM) — machine-local, never commit
-.opencode/data/
 
 # Editor/IDE specific
 .vscode/

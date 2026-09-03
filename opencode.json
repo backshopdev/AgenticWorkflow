@@ -18,9 +18,11 @@
           "*.env.*": "deny"
         },
         "glob": "allow",
-        "grep": "ask",
+        "grep": "allow",
         "list": "allow",
         "question": "allow",
+        "webfetch": "allow",
+        "websearch": "allow",
         "task": {
           "*": "deny",
           "document-author": "allow",
@@ -29,7 +31,8 @@
         "skill": {
           "*": "deny",
           "planning-structure": "allow",
-          "commit-convention": "allow"
+          "commit-convention": "allow",
+          "review-findings": "allow"
         }
       }
     },
@@ -44,7 +47,7 @@
           "*.env.*": "deny"
         },
         "glob": "allow",
-        "grep": "ask",
+        "grep": "allow",
         "list": "allow",
         "edit": "allow",
         "bash": {
@@ -115,7 +118,8 @@
           "commit-convention": "allow",
           "decision-record": "allow",
           "repository-documentation": "allow",
-          "docs-check": "allow"
+          "docs-check": "allow",
+          "git-commit": "allow"
         }
       }
     },
@@ -130,12 +134,13 @@
           "*.env.*": "deny"
         },
         "glob": "allow",
-        "grep": "ask",
+        "grep": "allow",
         "list": "allow",
         "edit": "deny",
         "bash": "deny",
         "task": "deny",
         "webfetch": "ask",
+        "websearch": "allow",
         "skill": {
           "*": "deny",
           "peer": "allow",
@@ -143,7 +148,8 @@
           "harness": "allow",
           "customize-opencode": "allow",
           "literature-note": "allow",
-          "opencode-configuration": "allow"
+          "opencode-configuration": "allow",
+          "review-findings": "allow"
         }
       }
     }

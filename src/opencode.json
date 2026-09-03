@@ -17,9 +17,11 @@
           "*.env.*": "deny"
         },
         "glob": "allow",
-        "grep": "ask",
+        "grep": "allow",
         "list": "allow",
         "question": "allow",
+        "webfetch": "allow",
+        "websearch": "allow",
         "task": {
           "*": "deny",
           "investigator": "allow",
@@ -29,7 +31,8 @@
         "skill": {
           "*": "deny",
           "commit-convention": "allow",
-          "planning-structure": "allow"
+          "planning-structure": "allow",
+          "review-findings": "allow"
         }
       }
     },
@@ -76,7 +79,7 @@
         "list": "allow",
         "edit": "allow",
         "bash": {
-          "*": "deny",
+          "*": "ask",
           "node .opencode/docs-check.js": "allow",
           "node .opencode/docs-check.js *": "allow",
           "npx --yes markdownlint-cli2@0.23.2": "allow",
@@ -84,7 +87,43 @@
           "git diff": "allow",
           "git diff *": "allow",
           "git status": "allow",
-          "git status *": "allow"
+          "git status *": "allow",
+          "git log": "allow",
+          "git log *": "allow",
+          "git commit": "ask",
+          "git commit *": "ask",
+          "git commit --amend": "ask",
+          "git commit --amend *": "ask",
+          "git commit * --amend": "ask",
+          "git commit * --amend *": "ask",
+          "git push": "ask",
+          "git push *": "ask",
+          "git commit --no-verify": "deny",
+          "git commit --no-verify *": "deny",
+          "git commit * --no-verify": "deny",
+          "git commit * --no-verify *": "deny",
+          "git commit -n": "deny",
+          "git commit -n *": "deny",
+          "git commit * -n": "deny",
+          "git commit * -n *": "deny",
+          "git -c * commit": "deny",
+          "git -c * commit *": "deny",
+          "git push --force*": "deny",
+          "git push * --force*": "deny",
+          "git push -f": "deny",
+          "git push -f *": "deny",
+          "git push * -f": "deny",
+          "git push * -f *": "deny",
+          "git push +*": "deny",
+          "git push * +*": "deny",
+          "git push --no-verify": "deny",
+          "git push --no-verify *": "deny",
+          "git push * --no-verify": "deny",
+          "git push * --no-verify *": "deny",
+          "git push --mirror": "deny",
+          "git push --mirror *": "deny",
+          "git push * --mirror": "deny",
+          "git push * --mirror *": "deny"
         },
         "webfetch": "ask",
         "websearch": "allow",
@@ -122,7 +161,8 @@
           "css-sass": "allow",
           "image-media-delivery": "allow",
           "web-performance": "allow",
-          "seo-structured-data": "allow"
+          "seo-structured-data": "allow",
+          "git-commit": "allow"
         }
       }
     },
@@ -148,6 +188,7 @@
           "*": "deny",
           "peer": "allow",
           "security": "allow",
+          "review-findings": "allow",
           "decision-quality": "allow",
           "behavioral-completeness": "allow",
           "gherkin-testability": "allow",

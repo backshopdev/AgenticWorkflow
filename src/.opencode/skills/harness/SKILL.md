@@ -108,6 +108,12 @@ drift without detection.
   authoritative source.
 - Deterministically checkable requirements belong in tools or configuration,
   with prose describing when to run them rather than duplicating their rules.
+- Authority patterns follow the [autonomy model](../../workflow-docs/autonomy/index.md):
+  authority = capability × scope × purpose × delegation constraint. When
+  designing agent permissions, task handoffs, or skill allowlists, verify all
+  four factors are satisfied. Reference the autonomy model for authority
+  classification (standing, task-granted, workflow-state-derived) and escalation
+  guidance.
 
 ## Review guidance and evidence
 

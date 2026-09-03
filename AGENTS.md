@@ -42,3 +42,26 @@ files by default.
 | Conducting a review | `peer` skill (+ domain skill) | Apply the peer review lens and domain expertise |
 | Changes affect permissions, secrets, or auth | `security` skill | Apply the security review threat model |
 | Decomposing work into a plan | `planning-structure` skill | Apply planning structure requirements and acceptance criteria |
+| Understanding authority and autonomy | [`src/.opencode/workflow-docs/autonomy/index.md`](src/.opencode/workflow-docs/autonomy/index.md) | Learn the autonomy model, authority types, escalation protocol, and session lifetime rules |
+
+## OpenCode Synchronization
+
+Root `.opencode/` is a deployed instance of `src/.opencode/`. It is gitignored
+and never edited directly. All changes to agents, skills, workflow-docs, or
+`docs-check.js` must be made in `src/.opencode/` first, then synced to root:
+
+```bash
+npm run sync-opencode
+```
+
+The sync copies `src/.opencode/` over root `.opencode/`, overwriting stale
+files. Root-only artifacts (`node_modules/`, `data/`, `package.json`,
+`.gitignore`) are preserved because they do not exist in `src/`.
+
+## Authority and Autonomy
+
+Agent authority is governed by the [autonomy model](src/.opencode/workflow-docs/autonomy/index.md).
+Authority = capability × scope × purpose × delegation constraint; all four
+must be satisfied simultaneously. Technical enforcement lives in
+`opencode.json`; normative guidance lives in the autonomy model. See
+[AGENTIC_WORKFLOW.md](AGENTIC_WORKFLOW.md) for the detailed permission model.

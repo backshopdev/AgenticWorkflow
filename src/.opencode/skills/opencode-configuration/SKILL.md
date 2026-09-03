@@ -85,8 +85,8 @@ skill. Configuration validity is not a security assessment.
 Validate JSON/JSONC and relevant files, consult the live schema for changed
 fields, and use available OpenCode debug/listing commands to verify discovery
 and effective behavior. Compare permissions before and after with representative
-matching inputs. Search renamed or retired names across config, prompts, docs,
-routing, and templates. Report commands, schema source, and results.
+matching inputs. Search renamed or retired names across config, docs, routing,
+and templates. Report commands, schema source, and results.
 
 Escalate uncertain schema shape, ambiguous merged-scope behavior, broadened
 privilege without a requirement, a secret-bearing change, startup failure, or a
@@ -102,8 +102,30 @@ Bash permission patterns in `opencode.json` use wildcards (for example,
 interpreter, so that a wildcard match cannot be escaped into an unintended
 command.
 
+### Permission philosophy
+
+Permissions implement the [autonomy model](../../workflow-docs/autonomy/index.md).
+The autonomy model defines three authority types:
+
+- **Standing role authority:** Stable permissions granted by virtue of the
+  agent's role (read, search, routine operations). These are always allowed.
+- **Task-granted authority:** Permissions conferred by an approved task handoff,
+  bounded by the objective (edit specific files, constrained bash).
+- **Workflow-state-derived authority:** Permissions that arise from approved
+  workflow states (git commit/push after full approval cycle).
+
+Permission configuration should minimize friction for routine operations (read,
+search, web search) while maintaining hard security boundaries (secret file
+denial, destructive git denial, edit/bash isolation for reviewers). When
+uncertain whether a permission is routine or persistent, classify it as
+persistent and require explicit approval.
+
+### Git write permissions
+
 For consuming repositories that add git write permissions, port the deny rules
 from the production root `opencode.json` (force-push, `--no-verify`, persistent
 `always` approval, and similar) before granting write authority. The template in
-`src/` is stricter than production: it grants no git write authority to any
-agent.
+`src/` implements the single-gate principle: git commit/push require human chat
+approval plus a fresh OpenCode `once` confirmation. Destructive operations
+(force-push, `--no-verify`, `--mirror`) are always denied regardless of
+workflow state.

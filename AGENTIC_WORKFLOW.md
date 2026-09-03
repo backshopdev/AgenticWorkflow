@@ -91,6 +91,27 @@ Every `index.md` uses relative links and links every sibling Markdown file plus
 each immediate child directory's `index.md`. It may link only to same-directory
 Markdown or an immediate child's `index.md`; no deep or absolute links.
 
+## Root/Template Synchronization
+
+Root `.opencode/` is a deployed instance of `src/.opencode/`. The source of
+truth for agents, skills, workflow-docs, and `docs-check.js` is `src/.opencode/`.
+Root `.opencode/` is gitignored; never edit it directly.
+
+After any change to `src/.opencode/`, sync to root:
+
+```bash
+npm run sync-opencode
+```
+
+The sync script (`scripts/sync-opencode.js`) copies `src/.opencode/` over root
+`.opencode/`, overwriting stale files. Root-only artifacts (`node_modules/`,
+`data/`, `package.json`, `.gitignore`) are preserved because they do not exist
+in `src/`. The script is idempotent and platform-independent.
+
+When a task changes both `src/` and root artifacts, change `src/` first, then
+sync. The document-author must verify synchronization as part of objective
+checks.
+
 ## HITL Gates
 
 - **Gate 1 — plan approval:** obtain explicit human approval before substantive
@@ -106,17 +127,59 @@ Markdown or an immediate child's `index.md`; no deep or absolute links.
 
 ## Permission Model
 
+Agent authority is defined by the
+[autonomy model](src/.opencode/workflow-docs/autonomy/index.md). The autonomy
+model provides normative guidance; `opencode.json` provides technical
+enforcement. Both are authoritative; neither substitutes for the other.
+
+### Authority types
+
+Three authority types classify every action an agent can take:
+
+- **Standing role authority:** Permissions inherent to the agent's role (read,
+  search, routine operations). Stable and repeatable; no per-task approval
+  needed.
+- **Task-granted authority:** Authority conferred by an approved task handoff.
+  Bounded by the objective; expires when the task is accepted, abandoned, or
+  superseded.
+- **Workflow-state-derived authority:** Authority that arises from approved
+  workflow states (for example, git commit/push after full approval). Narrow
+  and non-delegable.
+
+All actions must satisfy the authority equation: capability × scope × purpose ×
+delegation constraint. See the
+[autonomy principles](src/.opencode/workflow-docs/autonomy/principles.md) for
+the six fundamental invariants and the
+[authority types reference](src/.opencode/workflow-docs/autonomy/authority-types.md)
+for the complete classification.
+
+### Friction reduction
+
+- **Content search:** Target state is `grep: allow` for all agents. Content
+  search is a routine read operation with no side effects.
+- **Web fetch:** Orchestrator has free web fetch for planning and synthesis.
+  Subagents are bounded by URLs listed in their task handoff; other URLs
+  require human approval.
+- **Git operations:** Single-gate principle — one human gate (explicit chat
+  approval). The OpenCode `once` confirmation is a technical safety mechanism,
+  not a second gate.
+
+### Bash permission patterns
+
 Bash permission patterns in `opencode.json` use wildcards (for example,
 `"git diff *"`). This assumes OpenCode either sanitizes shell metacharacters
 (`&&`, `;`, `|`, `||`) before matching or uses `execFile` instead of a shell
 interpreter, so that a wildcard match cannot be escaped into an unintended
 command.
 
+### Consuming repositories
+
 For consuming repositories that add git write permissions, port the deny rules
 from the production root `opencode.json` (force-push, `--no-verify`, persistent
 `always` approval, and similar) before granting write authority. The template in
-`src/` is stricter than production: it grants no git write authority to any
-agent.
+`src/` mirrors the root configuration structure and includes the same git write
+authority (commit and push with `ask` permission) and deny rules for destructive
+operations.
 
 ## Key Rules
 
