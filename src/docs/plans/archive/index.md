@@ -9,4 +9,6 @@ reference.
 
 ## Archived plans
 
-_No archived plans yet._
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| _No archived plans yet. Use [template.md](template.md) to create one._ |  |  |  |

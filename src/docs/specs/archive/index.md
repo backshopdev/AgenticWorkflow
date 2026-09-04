@@ -8,4 +8,6 @@ Superseded and retired specifications are moved here for historical reference.
 
 ## Archived specifications
 
-_No archived specifications yet._
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| _No archived specifications yet. Use [template.md](template.md) to create one._ |  |  |  |

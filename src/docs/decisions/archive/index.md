@@ -9,4 +9,6 @@ reference.
 
 ## Archived decisions
 
-_No archived decision records yet._
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| _No archived decision records yet. Use [template.md](template.md) to create one._ |  |  |  |

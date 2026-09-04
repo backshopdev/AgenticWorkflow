@@ -13,4 +13,6 @@ stable IDs and test-classification tags.
 
 ## Specifications
 
-_No specifications yet. Use [template.md](template.md) to create one._
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| _No specifications yet. Use [template.md](template.md) to create one._ |  |  |  |

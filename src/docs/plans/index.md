@@ -13,4 +13,6 @@ verification criteria.
 
 ## Plans
 
-_No implementation plans yet. Use [template.md](template.md) to create one._
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| _No implementation plans yet. Use [template.md](template.md) to create one._ |  |  |  |

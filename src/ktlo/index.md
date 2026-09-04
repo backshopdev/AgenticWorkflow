@@ -9,4 +9,6 @@ and recurring work that sustains the system.
 
 ## KTLO items
 
-_No KTLO items yet. Use [template.md](template.md) to create one._
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| _No KTLO items yet. Use [template.md](template.md) to create one._ |  |  |  |

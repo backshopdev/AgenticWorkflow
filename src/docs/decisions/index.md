@@ -13,4 +13,6 @@ decisions along with their context, rationale, and consequences.
 
 ## Decision records
 
-_No decision records yet. Use [template.md](template.md) to create one._
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| _No decision records yet. Use [template.md](template.md) to create one._ |  |  |  |

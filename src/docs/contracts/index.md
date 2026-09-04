@@ -9,4 +9,6 @@ between system components.
 
 ## Contracts
 
-_No contracts yet. Use [template.md](template.md) to create one._
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| _No contracts yet. Use [template.md](template.md) to create one._ |  |  |  |
