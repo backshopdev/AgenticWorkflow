@@ -19,6 +19,12 @@
  *  12. Mode 2 creates missing seed files at root
  *  13. Mode 2 leaves existing seed files alone
  *  14. --verify-only detects Mode 2 drift
+ *  15. Empty consumer dir gets fully populated by sync
+ *  16. Existing consumer with customizations — Mode 1 replaces, Mode 2 preserves
+ *
+ * Tests run in an isolated OS temp directory (created from os.tmpdir())
+ * so they never touch the real repo root. A copy of src/ is placed in the
+ * fixture so sync can be exercised with --src and --consumer overrides.
  *
  * Usage:
  *   node scripts/test-sync.js
@@ -26,14 +32,34 @@
 
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 const { execSync } = require("child_process");
 
 const repoRoot = path.resolve(__dirname, "..");
 const srcDir = path.join(repoRoot, "src", ".opencode");
-const destDir = path.join(repoRoot, ".opencode");
 const srcOpenCodeJson = path.join(repoRoot, "src", "opencode.json");
-const destOpenCodeJson = path.join(repoRoot, "opencode.json");
 const syncScript = path.join(__dirname, "sync-opencode.js");
+
+// ─── Temp fixture setup ─────────────────────────────────────────────────────
+// Tests run in an isolated OS temp directory so the real repo root is never
+// touched. We copy src/ into the fixture and pass --src/--consumer overrides
+// to the sync script so it operates on the fixture, not the live repo.
+const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "opencode-roundhouse-sync-test-"));
+fs.cpSync(path.join(repoRoot, "src"), path.join(tempRoot, "src"), { recursive: true });
+
+// Safety net: ensure tempRoot is removed even if a synchronous throw bypasses
+// the linear cleanup at the end of the suite. Idempotent via `force: true`.
+function cleanupTemp() {
+  try { fs.rmSync(tempRoot, { recursive: true, force: true }); } catch {}
+}
+process.on("exit", cleanupTemp);
+process.on("beforeExit", cleanupTemp);
+
+// Consumer-side path constants now point at the temp fixture.
+const destDir = path.join(tempRoot, ".opencode");
+const destOpenCodeJson = path.join(tempRoot, "opencode.json");
+const fixtureSrcDir = path.join(tempRoot, "src", ".opencode");
+const fixtureSrcOpenCodeJson = path.join(tempRoot, "src", "opencode.json");
 
 /**
  * Root-only artifacts that must be preserved after sync.
@@ -88,8 +114,56 @@ function collectRelativePaths(dir, base) {
   return result;
 }
 
-function runSync(args) {
-  const cmd = `node "${syncScript}"${args ? " " + args : ""}`;
+/**
+ * Recursively collect all files under a directory, returning relative POSIX
+ * paths. Used by Tests 15/16 to compare whole subtrees byte-for-byte.
+ */
+function collectFilesRecursive(dir, base) {
+  const result = [];
+  if (!fs.existsSync(dir)) return result;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    const rel = path.relative(base, full).split(path.sep).join("/");
+    if (entry.isDirectory()) {
+      for (const child of collectFilesRecursive(full, base)) result.push(child);
+    } else if (entry.isFile()) {
+      result.push(rel);
+    }
+  }
+  return result;
+}
+
+function filesAreEqual(fileA, fileB) {
+  if (!fs.existsSync(fileA) || !fs.existsSync(fileB)) return false;
+  const statA = fs.statSync(fileA);
+  const statB = fs.statSync(fileB);
+  if (statA.isDirectory() && statB.isDirectory()) return true;
+  if (statA.isFile() && statB.isFile()) {
+    return fs.readFileSync(fileA).equals(fs.readFileSync(fileB));
+  }
+  return false;
+}
+
+/**
+ * Filter a set of relative paths to those whose entries are regular files.
+ * `collectRelativePaths` includes both files and directories; byte-for-byte
+ * comparisons must skip directories.
+ */
+function filterFilesOnly(dir, paths) {
+  const result = new Set();
+  for (const rel of paths) {
+    const fullPath = path.join(dir, rel);
+    if (fs.existsSync(fullPath) && fs.statSync(fullPath).isFile()) {
+      result.add(rel);
+    }
+  }
+  return result;
+}
+
+function runSync(args, options = {}) {
+  const consumerDir = options.consumer || tempRoot;
+  const sourceDir = options.src || path.join(tempRoot, "src");
+  const cmd = `node "${syncScript}" --src "${sourceDir}" --consumer "${consumerDir}"${args ? " " + args : ""}`;
   return execSync(cmd, {
     cwd: repoRoot,
     encoding: "utf-8",
@@ -112,7 +186,7 @@ try {
 
 // ─── Test 2: All src files exist in root after sync ─────────────────────────
 console.log("\nTest 2: All src/.opencode/ files exist in root .opencode/");
-const srcPaths = collectRelativePaths(srcDir, srcDir);
+const srcPaths = collectRelativePaths(fixtureSrcDir, fixtureSrcDir);
 const destPaths = collectRelativePaths(destDir, destDir);
 
 let allPresent = true;
@@ -292,7 +366,7 @@ assert(
   "Root opencode.json exists after sync"
 );
 
-const srcJsonContent = fs.readFileSync(srcOpenCodeJson, "utf-8");
+const srcJsonContent = fs.readFileSync(fixtureSrcOpenCodeJson, "utf-8");
 const destJsonContent = fs.readFileSync(destOpenCodeJson, "utf-8");
 assert(
   srcJsonContent === destJsonContent,
@@ -445,14 +519,14 @@ try {
 // ─── Test 11: Sync fails when src/opencode.json is missing ──────────────────
 console.log("\nTest 11: Sync fails when src/opencode.json is missing");
 
-// Temporarily rename src/opencode.json to simulate its absence
-const tmpSrcJson = srcOpenCodeJson + ".tmp_test_backup";
+// Temporarily rename fixture src/opencode.json to simulate its absence
+const tmpSrcJson = fixtureSrcOpenCodeJson + ".tmp_test_backup";
 let srcJsonWasRenamed = false;
 try {
-  fs.renameSync(srcOpenCodeJson, tmpSrcJson);
+  fs.renameSync(fixtureSrcOpenCodeJson, tmpSrcJson);
   srcJsonWasRenamed = true;
   assert(
-    !fs.existsSync(srcOpenCodeJson),
+    !fs.existsSync(fixtureSrcOpenCodeJson),
     "src/opencode.json temporarily removed"
   );
 
@@ -477,14 +551,14 @@ try {
     "Sync error message mentions missing source file"
   );
 } finally {
-  // Always restore src/opencode.json
+  // Always restore fixture src/opencode.json
   if (srcJsonWasRenamed && fs.existsSync(tmpSrcJson)) {
-    fs.renameSync(tmpSrcJson, srcOpenCodeJson);
+    fs.renameSync(tmpSrcJson, fixtureSrcOpenCodeJson);
   }
 }
 
 assert(
-  fs.existsSync(srcOpenCodeJson),
+  fs.existsSync(fixtureSrcOpenCodeJson),
   "src/opencode.json restored after test"
 );
 
@@ -493,10 +567,10 @@ console.log("\nTest 12: Mode 2 creates missing files at root");
 
 // Seed files used for Mode 2 verification. The pre-test state had neither
 // file at root, so we delete any that exist to force Mode 2 to recreate them.
-const buildingPath = path.join(repoRoot, "BUILDING.md");
-const testingPath = path.join(repoRoot, "TESTING.md");
-const srcBuildingPath = path.join(repoRoot, "src", "BUILDING.md");
-const srcTestingPath = path.join(repoRoot, "src", "TESTING.md");
+const buildingPath = path.join(tempRoot, "BUILDING.md");
+const testingPath = path.join(tempRoot, "TESTING.md");
+const srcBuildingPath = path.join(tempRoot, "src", "BUILDING.md");
+const srcTestingPath = path.join(tempRoot, "src", "TESTING.md");
 try { fs.unlinkSync(buildingPath); } catch {}
 try { fs.unlinkSync(testingPath); } catch {}
 assert(!fs.existsSync(buildingPath), "Pre-test: root/BUILDING.md deleted");
@@ -602,17 +676,255 @@ try {
   assert(false, `Re-sync succeeded in test 14 (got: ${err.message})`);
 }
 
-// Final re-sync to ensure everything is clean for any subsequent runs. Test 14
-// already re-synced after restoring BUILDING.md, so this is defense-in-depth:
-// after this call, BUILDING.md and TESTING.md exist at root with src content,
-// matching the canonical post-sync state.
+// ─── Test 15: Empty consumer dir gets fully populated by sync ──────────────
+console.log("\nTest 15: Empty consumer dir gets fully populated by sync");
+
+const test15Dir = path.join(tempRoot, "test15");
+fs.mkdirSync(test15Dir, { recursive: true });
+assert(
+  fs.readdirSync(test15Dir).length === 0,
+  "Test 15 starts with an empty consumer dir"
+);
+
 try {
-  runSync();
+  runSync("", { consumer: test15Dir });
 } catch (err) {
-  // Non-fatal: just log; the test assertions above are what matter
-  console.error(
-    `  Warning: final cleanup sync failed (got: ${err.message})`
+  assert(false, `Sync populated empty consumer (got: ${err.message})`);
+}
+
+const test15OpenCode = path.join(test15Dir, ".opencode");
+const test15OpenCodeJson = path.join(test15Dir, "opencode.json");
+assert(
+  fs.existsSync(test15OpenCode),
+  "test15: .opencode/ was created"
+);
+assert(
+  fs.existsSync(test15OpenCodeJson),
+  "test15: opencode.json was created"
+);
+
+// Mode 1: full .opencode/ match (sample by checking byte-for-byte equality
+// across every file path present in src/.opencode/).
+const test15OpenCodePaths = collectRelativePaths(test15OpenCode, test15OpenCode);
+const test15SrcFilePaths = filterFilesOnly(fixtureSrcDir, srcPaths);
+let test15Mode1Match = true;
+for (const rel of test15SrcFilePaths) {
+  const srcPath = path.join(fixtureSrcDir, rel);
+  const test15Path = path.join(test15OpenCode, rel);
+  if (!filesAreEqual(srcPath, test15Path)) {
+    assert(false, `test15: .opencode/${rel} does not match src byte-for-byte`);
+    test15Mode1Match = false;
+  }
+}
+if (test15Mode1Match) {
+  assert(
+    true,
+    `test15: all ${test15SrcFilePaths.size} .opencode/ files match src byte-for-byte`
   );
+}
+
+assert(
+  filesAreEqual(fixtureSrcOpenCodeJson, test15OpenCodeJson),
+  "test15: opencode.json matches src/opencode.json byte-for-byte"
+);
+
+// Mode 2: seed files exist with src content. The list mirrors the seed
+// files in src/ — root-only consumer files (e.g. guiding-principles.md)
+// are not produced by sync and are excluded.
+const test15SeedFiles = [
+  "BUILDING.md",
+  "TESTING.md",
+  "AGENTS.md",
+  "AGENTIC_WORKFLOW.md",
+  "README.md",
+  "CONTRIBUTING.md",
+  "scratch/README.md",
+];
+for (const rel of test15SeedFiles) {
+  const test15SeedPath = path.join(test15Dir, rel);
+  const srcSeedPath = path.join(tempRoot, "src", rel);
+  assert(
+    fs.existsSync(test15SeedPath),
+    `test15: seed file ${rel} was created`
+  );
+  assert(
+    filesAreEqual(srcSeedPath, test15SeedPath),
+    `test15: seed file ${rel} matches src content byte-for-byte`
+  );
+}
+
+// docs/ subtree matches src/docs/ recursively (sample by comparing every
+// file under both trees byte-for-byte).
+const test15DocsDir = path.join(test15Dir, "docs");
+const test15DocsFiles = collectFilesRecursive(test15DocsDir, test15DocsDir);
+const srcDocsFiles = collectFilesRecursive(
+  path.join(tempRoot, "src", "docs"),
+  path.join(tempRoot, "src", "docs")
+);
+assert(
+  test15DocsFiles.length === srcDocsFiles.length,
+  `test15: docs/ file count matches src (${test15DocsFiles.length} vs ${srcDocsFiles.length})`
+);
+const srcDocsBase = path.join(tempRoot, "src", "docs");
+let test15DocsMatch = true;
+for (const rel of srcDocsFiles) {
+  if (!filesAreEqual(path.join(srcDocsBase, rel), path.join(test15DocsDir, rel))) {
+    assert(false, `test15: docs/${rel} does not match src`);
+    test15DocsMatch = false;
+  }
+}
+if (test15DocsMatch && test15DocsFiles.length > 0) {
+  assert(
+    true,
+    `test15: all ${test15DocsFiles.length} docs/ files match src byte-for-byte`
+  );
+}
+
+// Spot-check a few well-known docs paths to make the assertion explicit.
+const test15DocsSpotChecks = [
+  "specs/index.md",
+  "specs/template.md",
+  "architecture/index.md",
+  "architecture/template.md",
+  "plans/template.md",
+];
+for (const rel of test15DocsSpotChecks) {
+  assert(
+    filesAreEqual(
+      path.join(srcDocsBase, rel),
+      path.join(test15DocsDir, rel)
+    ),
+    `test15: docs/${rel} matches src byte-for-byte`
+  );
+}
+
+// ktlo/ subtree matches src/ktlo/ recursively.
+const test15KtloDir = path.join(test15Dir, "ktlo");
+const test15KtloFiles = collectFilesRecursive(test15KtloDir, test15KtloDir);
+const srcKtloBase = path.join(tempRoot, "src", "ktlo");
+const srcKtloFiles = collectFilesRecursive(srcKtloBase, srcKtloBase);
+assert(
+  test15KtloFiles.length === srcKtloFiles.length,
+  `test15: ktlo/ file count matches src (${test15KtloFiles.length} vs ${srcKtloFiles.length})`
+);
+let test15KtloMatch = true;
+for (const rel of srcKtloFiles) {
+  if (!filesAreEqual(path.join(srcKtloBase, rel), path.join(test15KtloDir, rel))) {
+    assert(false, `test15: ktlo/${rel} does not match src`);
+    test15KtloMatch = false;
+  }
+}
+if (test15KtloMatch && test15KtloFiles.length > 0) {
+  assert(
+    true,
+    `test15: all ${test15KtloFiles.length} ktlo/ files match src byte-for-byte`
+  );
+}
+
+// ─── Test 16: Existing consumer with customizations ────────────────────────
+console.log(
+  "\nTest 16: Existing consumer with customizations — Mode 1 replaces, Mode 2 preserves"
+);
+
+const test16Dir = path.join(tempRoot, "test16");
+fs.mkdirSync(test16Dir, { recursive: true });
+
+// Mirror the seed file shape by running sync once on the empty consumer,
+// then customizing. (We can't simply rely on a hand-rolled mirror because
+// Mode 2 logic is the behavior under test.)
+runSync("", { consumer: test16Dir });
+
+// Mode 1 targets: overwrite .opencode/ agents and opencode.json with
+// sentinels; add a stale file inside .opencode/.
+const test16OrchestratorPath = path.join(
+  test16Dir,
+  ".opencode",
+  "agents",
+  "orchestrator.md"
+);
+const test16InvestigatorPath = path.join(
+  test16Dir,
+  ".opencode",
+  "agents",
+  "investigator.md"
+);
+const test16OpenCodeJsonPath = path.join(test16Dir, "opencode.json");
+const test16StaleMarker = path.join(test16Dir, ".opencode", "__stale_test_marker__.md");
+
+const mode1Sentinel = "# mode-1 sentinel — should be replaced by sync\n";
+fs.writeFileSync(test16OrchestratorPath, mode1Sentinel, "utf-8");
+fs.writeFileSync(test16InvestigatorPath, mode1Sentinel, "utf-8");
+const originalTest16Json = fs.readFileSync(test16OpenCodeJsonPath, "utf-8");
+fs.writeFileSync(
+  test16OpenCodeJsonPath,
+  originalTest16Json + "\n// tampered\n",
+  "utf-8"
+);
+fs.writeFileSync(test16StaleMarker, "stale\n", "utf-8");
+
+// Mode 2 targets: overwrite BUILDING.md and TESTING.md with sentinels.
+const test16BuildingPath = path.join(test16Dir, "BUILDING.md");
+const test16TestingPath = path.join(test16Dir, "TESTING.md");
+const mode2Sentinel = "# mode-2 sentinel — must be preserved by sync\n";
+fs.writeFileSync(test16BuildingPath, mode2Sentinel, "utf-8");
+fs.writeFileSync(test16TestingPath, mode2Sentinel, "utf-8");
+
+// Snapshot the src files we're comparing against.
+const srcOrchestratorPath = path.join(
+  tempRoot,
+  "src",
+  ".opencode",
+  "agents",
+  "orchestrator.md"
+);
+const srcInvestigatorPath = path.join(
+  tempRoot,
+  "src",
+  ".opencode",
+  "agents",
+  "investigator.md"
+);
+
+// Run sync against the customized consumer.
+try {
+  runSync("", { consumer: test16Dir });
+} catch (err) {
+  assert(false, `Sync ran on customized consumer (got: ${err.message})`);
+}
+
+// Mode 1 assertions: replaced with src content, stale marker removed.
+assert(
+  filesAreEqual(srcOrchestratorPath, test16OrchestratorPath),
+  "test16: .opencode/agents/orchestrator.md replaced with src content"
+);
+assert(
+  filesAreEqual(srcInvestigatorPath, test16InvestigatorPath),
+  "test16: .opencode/agents/investigator.md replaced with src content"
+);
+assert(
+  fs.readFileSync(test16OpenCodeJsonPath, "utf-8") === originalTest16Json,
+  "test16: opencode.json replaced with src content"
+);
+assert(
+  !fs.existsSync(test16StaleMarker),
+  "test16: stale marker file was removed"
+);
+
+// Mode 2 assertions: sentinels preserved untouched.
+assert(
+  fs.readFileSync(test16BuildingPath, "utf-8") === mode2Sentinel,
+  "test16: BUILDING.md sentinel preserved (Mode 2 left alone)"
+);
+assert(
+  fs.readFileSync(test16TestingPath, "utf-8") === mode2Sentinel,
+  "test16: TESTING.md sentinel preserved (Mode 2 left alone)"
+);
+
+// ─── Temp cleanup ───────────────────────────────────────────────────────────
+try {
+  fs.rmSync(tempRoot, { recursive: true, force: true });
+} catch (err) {
+  console.error(`Warning: temp dir cleanup failed: ${err.message}`);
 }
 
 // ─── Summary ────────────────────────────────────────────────────────────────
