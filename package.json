@@ -1,11 +1,23 @@
 {
-  "name": "agentic-workflow",
-  "version": "1.0.0",
-  "private": true,
+  "name": "@backshopdev/opencode-roundhouse",
+  "version": "0.5.0",
   "description": "Operational harness for human-agent collaboration workflow",
+  "bin": {
+    "opencode-roundhouse": "package/opencode-roundhouse.js"
+  },
+  "files": [
+    "package/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "sync-opencode": "node scripts/sync-opencode.js",
-    "test-sync": "node scripts/test-sync.js"
+    "test-sync": "node scripts/test-sync.js",
+    "test-package": "node scripts/test-package.js"
   },
   "license": "MIT"
 }
