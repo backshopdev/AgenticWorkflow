@@ -1,9 +1,26 @@
 #!/usr/bin/env node
 "use strict";
 
+/**
+ * sync-opencode.js
+ *
+ * Mirrors the package's consumer-side `update()` behavior for the source
+ * repo's development environment:
+ *
+ *   Mode 1 (replace): src/.opencode/ → root .opencode/ and
+ *                      src/opencode.json → root/opencode.json. Always
+ *                      overwrites; stale files in .opencode/ are removed.
+ *   Mode 2 (create-if-missing): for every other file in src/, copy to root
+ *                      if the destination doesn't exist. Files already at
+ *                      root are left untouched — once present, they're
+ *                      consumer-owned.
+ *
+ * `--verify-only` and `--verify` exit non-zero when either mode has drift.
+ */
+
 const fs = require("fs");
 const path = require("path");
-const { ROOT_ONLY, collectRelativePaths, deploy } = require("../package/deploy-roundhouse");
+const { ROOT_ONLY, collectRelativePaths, copyMissing, deploy } = require("../package/deploy-roundhouse");
 
 const repoRoot = path.resolve(__dirname, "..");
 const srcDir = path.join(repoRoot, "src", ".opencode");
@@ -44,6 +61,20 @@ function verifyIntegrity() {
     fail(message);
   }
   console.log(`Integrity verification passed: ${source.size} src entr${source.size === 1 ? "y" : "ies"} match root .opencode/.`);
+
+  // Mode 2 drift: any non-.opencode file under src/ that's missing at root.
+  const srcRoot = path.join(repoRoot, "src");
+  const seedExcluded = new Set([".opencode", "opencode.json"]);
+  const seedEntries = [...collectRelativePaths(srcRoot, srcRoot)].filter(
+    (relative) => !seedExcluded.has(relative.split("/")[0])
+  );
+  const missingSeed = seedEntries.filter(
+    (relative) => !fs.existsSync(path.join(repoRoot, relative.split("/").join(path.sep)))
+  );
+  if (missingSeed.length) {
+    fail(`Integrity verification FAILED:\n  Mode 2 drift — files in src/ missing from root (${missingSeed.length}):\n${missingSeed.map((item) => `    - ${item}`).join("\n")}`);
+  }
+  console.log("Mode 2 integrity verification passed: no seed files missing from root.");
 }
 
 function main() {
@@ -57,6 +88,13 @@ function main() {
   }
   deploy({ sourceDir: srcDir, destinationDir: destDir, sourceJson: srcOpenCodeJson, destinationJson: destOpenCodeJson });
   console.log("Root .opencode/ and opencode.json are now up to date with src/.");
+  const srcRoot = path.join(repoRoot, "src");
+  const repoRootResolved = path.resolve(repoRoot);
+  for (const entry of fs.readdirSync(srcRoot)) {
+    if (entry === ".opencode" || entry === "opencode.json") continue;
+    copyMissing(path.join(srcRoot, entry), path.join(repoRoot, entry), false, console.log, repoRootResolved);
+  }
+  console.log("Seed files are never overwritten; managed .opencode/ and opencode.json are overwritten.");
   if (flags.verify) {
     verifyIntegrity();
     verifyOpenCodeJson();

@@ -47,23 +47,36 @@ files by default.
 ## OpenCode Synchronization
 
 Root `.opencode/` and `opencode.json` are deployed instances of `src/.opencode/`
-and `src/opencode.json`. They are gitignored and never edited directly. All
-changes to agents, skills, workflow-docs, `docs-check.js`, or `opencode.json`
-must be made in `src/` first, then synced to root:
+and `src/opencode.json`. They are gitignored and never edited directly.
+
+The sync runs in two modes that mirror the package's consumer-side `update()`
+command:
+
+- **Managed (Mode 1)**: `src/.opencode/` (and children) and `src/opencode.json`
+  are always overwritten. Stale files in `.opencode/` are removed. The package
+  is the source of truth here; consumer customization is not supported.
+- **Seed (Mode 2)**: every other file under `src/` is copied to root only if
+  the destination does not already exist. Once a seed file is present at root,
+  it belongs to the consumer and is left alone on subsequent syncs. Typical
+  seed files include `BUILDING.md`, `TESTING.md`, and `scratch/README.md`.
+
+All changes to source files must be made in `src/` first, then synced to root:
 
 ```bash
 npm run sync-opencode
 ```
 
-The sync copies `src/.opencode/` over root `.opencode/` and `src/opencode.json`
-over root `opencode.json`, overwriting stale files. Root-only artifacts
-(`node_modules/`, `data/`, `package.json`, `.gitignore`) are preserved because
-they do not exist in `src/`.
+The sync copies `src/.opencode/` over root `.opencode/` (overwriting stale
+files) and copies any missing seed files from `src/` to root. Root-only
+artifacts (`node_modules/`, `data/`, `package.json`, `package-lock.json`, `.gitignore`)
+are preserved because the sync script's preserve list protects them; they
+don't normally exist in `src/`.
 
-Run `npm run test-sync` to execute the automated test suite for the sync
-script. It verifies sync correctness, root-only artifact preservation, stale
-file removal, and `--verify` integrity checks (including discrepancy
-detection).
+`--verify-only` and `--verify` exit non-zero when either mode has drift,
+listing the missing files. Run `npm run test-sync` to execute the automated
+test suite for the sync script. It verifies sync correctness, root-only
+artifact preservation, stale file removal, Mode 1 and Mode 2 seed-file
+behavior, and `--verify` integrity checks (including discrepancy detection).
 
 ## Authority and Autonomy
 

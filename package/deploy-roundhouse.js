@@ -194,4 +194,4 @@ function update({ sourceDir, destinationDir, sourceJson, dryRun = false, log = c
   log("Seed files are never overwritten; managed .opencode/ and opencode.json are overwritten.");
 }
 
-module.exports = { ROOT_ONLY, collectRelativePaths, deploy, init, update };
+module.exports = { ROOT_ONLY, collectRelativePaths, copyMissing, deploy, init, update };

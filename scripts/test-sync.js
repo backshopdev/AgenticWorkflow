@@ -16,6 +16,9 @@
  *   9. --verify-only detects opencode.json content discrepancy
  *  10. --verify-only detects missing root opencode.json
  *  11. Sync fails when src/opencode.json is missing
+ *  12. Mode 2 creates missing seed files at root
+ *  13. Mode 2 leaves existing seed files alone
+ *  14. --verify-only detects Mode 2 drift
  *
  * Usage:
  *   node scripts/test-sync.js
@@ -485,7 +488,124 @@ assert(
   "src/opencode.json restored after test"
 );
 
-// Final re-sync to ensure everything is clean for any subsequent runs
+// ─── Test 12: Mode 2 creates missing files at root ──────────────────────────
+console.log("\nTest 12: Mode 2 creates missing files at root");
+
+// Seed files used for Mode 2 verification. The pre-test state had neither
+// file at root, so we delete any that exist to force Mode 2 to recreate them.
+const buildingPath = path.join(repoRoot, "BUILDING.md");
+const testingPath = path.join(repoRoot, "TESTING.md");
+const srcBuildingPath = path.join(repoRoot, "src", "BUILDING.md");
+const srcTestingPath = path.join(repoRoot, "src", "TESTING.md");
+try { fs.unlinkSync(buildingPath); } catch {}
+try { fs.unlinkSync(testingPath); } catch {}
+assert(!fs.existsSync(buildingPath), "Pre-test: root/BUILDING.md deleted");
+assert(!fs.existsSync(testingPath), "Pre-test: root/TESTING.md deleted");
+
+try {
+  runSync();
+} catch (err) {
+  assert(false, `Sync ran without error in test 12 (got: ${err.message})`);
+}
+
+const srcBuildingContent = fs.readFileSync(srcBuildingPath, "utf-8");
+const srcTestingContent = fs.readFileSync(srcTestingPath, "utf-8");
+assert(fs.existsSync(buildingPath), "Mode 2 created root/BUILDING.md");
+assert(fs.existsSync(testingPath), "Mode 2 created root/TESTING.md");
+assert(
+  fs.readFileSync(buildingPath, "utf-8") === srcBuildingContent,
+  "root/BUILDING.md content matches src/BUILDING.md"
+);
+assert(
+  fs.readFileSync(testingPath, "utf-8") === srcTestingContent,
+  "root/TESTING.md content matches src/TESTING.md"
+);
+
+// ─── Test 13: Mode 2 leaves existing files alone ───────────────────────────
+console.log("\nTest 13: Mode 2 leaves existing files alone");
+
+const sentinelContent = "# sentinel — Mode 2 must not overwrite\n";
+fs.writeFileSync(buildingPath, sentinelContent, "utf-8");
+assert(
+  fs.readFileSync(buildingPath, "utf-8") === sentinelContent,
+  "Sentinel written to root/BUILDING.md"
+);
+
+try {
+  runSync();
+} catch (err) {
+  assert(false, `Sync ran without error in test 13 (got: ${err.message})`);
+}
+
+assert(
+  fs.readFileSync(buildingPath, "utf-8") === sentinelContent,
+  "Mode 2 did not overwrite sentinel content in root/BUILDING.md"
+);
+assert(
+  fs.readFileSync(buildingPath, "utf-8") !== srcBuildingContent,
+  "root/BUILDING.md still has sentinel content (not src content)"
+);
+
+// Clean up: delete the sentinel so the next sync re-creates it from src/
+try { fs.unlinkSync(buildingPath); } catch {}
+
+// ─── Test 14: --verify-only detects Mode 2 drift ────────────────────────────
+console.log("\nTest 14: --verify-only detects Mode 2 drift");
+
+// Ensure baseline is in sync (re-creates BUILDING.md from src/)
+try {
+  runSync();
+} catch (err) {
+  assert(false, `Baseline sync succeeded in test 14 (got: ${err.message})`);
+}
+assert(
+  fs.existsSync(buildingPath),
+  "Baseline: root/BUILDING.md present after sync"
+);
+
+// Delete root/BUILDING.md to create Mode 2 drift
+fs.unlinkSync(buildingPath);
+assert(
+  !fs.existsSync(buildingPath),
+  "root/BUILDING.md deleted to create Mode 2 drift"
+);
+
+// Run --verify-only and expect failure
+let test14Output = "";
+let test14ExitCode = null;
+try {
+  test14Output = runSync("--verify-only");
+  test14ExitCode = 0;
+} catch (err) {
+  test14ExitCode = err.status;
+  test14Output = (err.stdout || "") + "\n" + (err.stderr || "");
+}
+
+assert(
+  test14ExitCode === 1,
+  `--verify-only exited with code 1 for Mode 2 drift (got: ${test14ExitCode})`
+);
+assert(
+  test14Output.includes("Mode 2 drift") ||
+    test14Output.includes("missing from root"),
+  "--verify-only output reports Mode 2 drift"
+);
+
+// Re-sync to clean state for any subsequent runs
+try {
+  runSync();
+  assert(
+    fs.existsSync(buildingPath),
+    "Re-sync restored root/BUILDING.md"
+  );
+} catch (err) {
+  assert(false, `Re-sync succeeded in test 14 (got: ${err.message})`);
+}
+
+// Final re-sync to ensure everything is clean for any subsequent runs. Test 14
+// already re-synced after restoring BUILDING.md, so this is defense-in-depth:
+// after this call, BUILDING.md and TESTING.md exist at root with src content,
+// matching the canonical post-sync state.
 try {
   runSync();
 } catch (err) {
