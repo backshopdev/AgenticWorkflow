@@ -2,20 +2,20 @@
 
 Literature considered while building this workflow. Links are relative per the index-link discipline (GP02). One `[project]` note per source; status flags retrieval confidence.
 
-- [AI Hero — A Complete Guide to AGENTS.md](./aihero-complete-guide-to-agents-md.md) — `[template]` — retrieved (full) — informs GP01, GP02, GP07
-- [alexop.dev — Stop Bloating Your CLAUDE.md](./alexop-stop-bloating-your-claude-md.md) — `[template]` — retrieved (full) — informs GP01, GP02, GP07
-- [Medium @martia_es — Progressive Disclosure](./medium-martia_es-progressive-disclosure.md) — `[template]` — retrieved (full, local PDF) — informs GP01
-- [arXiv 2601.20404 — Impact of AGENTS.md on AI Coding Agents](./arxiv-2601-20404-agents-md-impact.md) — `[project]` — abstract/snippet only — informs GP01
-- [arXiv 2602.11988 — Evaluating AGENTS.md](./arxiv-2602-11988-evaluating-agents-md.md) — `[project]` — abstract/snippet only — informs GP01, GP02
-- [Anthropic — Effective Context Engineering for AI Agents](./anthropic-context-engineering.md) — `[project]` — abstract/snippet only — informs GP01, GP02
-- [HumanLayer — Writing a Good CLAUDE.md](./humanlayer-writing-good-claude-md.md) — `[project]` — abstract/snippet only — informs GP01, GP02
-- [Anthropic — Equipping Agents with Agent Skills](./anthropic-agent-skills.md) — `[project]` — abstract/snippet only — informs GP01, GP02
-- [OpenAI — Build Skills](./openai-build-skills.md) — `[project]` — abstract/snippet only — informs GP01, GP02
-- [OpenAI — Using PLANS.md for Multi-Hour Problem Solving](./openai-plans-md.md) — `[project]` — abstract/snippet only — informs GP01, GP02
-- [arXiv 2606.15828 — Configuration Smells in AGENTS.md Files](./arxiv-2606-15828-configuration-smells.md) — `[project]` — abstract/snippet only — informs GP01, GP02, GP07
-- [arXiv 2607.17598v1 — Progressive Disclosure for Long-Context Agents](./arxiv-2607-17598v1-progressive-disclosure-long-context.md) — `[project]` — abstract/snippet only — informs GP01
-- [HumanLayer — Skill Issue: Harness Engineering for Coding Agents](./humanlayer-skill-issue.md) — `[project]` — abstract/snippet only — informs GP01, GP02, GP07
-- [agents.md — AGENTS.md Open Standard](./agents-md-open-standard.md) — `[project]` — abstract/snippet only — informs GP01, GP02
+- [AI Hero — A Complete Guide to AGENTS.md](./aihero-complete-guide-to-agents-md.md) — Synthesizes instruction-budget, progressive-disclosure, and context-staleness arguments for minimal always-loaded `AGENTS.md` files. — `[template]` — retrieved (full) — informs GP01, GP02, GP07 — 2026-08-29
+- [alexop.dev — Stop Bloating Your CLAUDE.md](./alexop-stop-bloating-your-claude-md.md) — Argues that always-loaded `CLAUDE.md` should stay minimal, with situational gotchas delegated to separate, on-demand docs. — `[template]` — retrieved (full) — informs GP01, GP02, GP07 — 2026-08-29
+- [Medium @martia_es — Progressive Disclosure](./medium-martia_es-progressive-disclosure.md) — Describes a three-layer (discovery, activation, execution) progressive-disclosure pattern for managing context and tool selection in AI agents. — `[template]` — retrieved (full, local PDF) — informs GP01 — 2026-08-29
+- [arXiv 2601.20404 — Impact of AGENTS.md on AI Coding Agents](./arxiv-2601-20404-agents-md-impact.md) — Reports a 28.64% median runtime reduction and 16.58% output-token reduction on evaluated tasks when an `AGENTS.md` is present. — `[project]` — abstract/snippet only — informs GP01 — 2026-09-01
+- [arXiv 2602.11988 — Evaluating AGENTS.md](./arxiv-2602-11988-evaluating-agents-md.md) — Finds that repository-level context files did not reliably raise task success and added 20%+ inference cost, with generic overviews offering the least benefit. — `[project]` — abstract/snippet only — informs GP01, GP02 — 2026-09-01
+- [Anthropic — Effective Context Engineering for AI Agents](./anthropic-context-engineering.md) — Articulates context engineering as providing the smallest set of high-signal tokens, using lightweight identifiers to retrieve fuller content just-in-time. — `[project]` — abstract/snippet only — informs GP01, GP02 — 2026-09-01
+- [HumanLayer — Writing a Good CLAUDE.md](./humanlayer-writing-good-claude-md.md) — Advises keeping the always-loaded `CLAUDE.md` concise and giving each supplemental file a short description that signals when to load it. — `[project]` — abstract/snippet only — informs GP01, GP02 — 2026-09-01
+- [Anthropic — Equipping Agents with Agent Skills](./anthropic-agent-skills.md) — Frames skills as a progressive-disclosure mechanism that exposes a compact name and description for routing, with full instructions loaded on demand. — `[project]` — abstract/snippet only — informs GP01, GP02 — 2026-09-01
+- [OpenAI — Build Skills](./openai-build-skills.md) — OpenAI's documentation on skills; uses the same minimal-metadata-for-routing, full-content-on-demand pattern, with an execution-plan example analogous to `AGENTS.md`. — `[project]` — abstract/snippet only — informs GP01, GP02 — 2026-09-01
+- [OpenAI — Using PLANS.md for Multi-Hour Problem Solving](./openai-plans-md.md) — Cookbook example of a short routing rule in `AGENTS.md` that points to a separate `PLANS.md` for detailed plan specifications on multi-hour tasks. — `[project]` — abstract/snippet only — informs GP01, GP02 — 2026-09-01
+- [arXiv 2606.15828 — Configuration Smells in AGENTS.md Files](./arxiv-2606-15828-configuration-smells.md) — Empirical catalogue of six `AGENTS.md` anti-patterns — most prevalent are lint leakage (62%), context bloat (42%), and skill leakage (35%). — `[project]` — abstract/snippet only — informs GP01, GP02, GP07 — 2026-09-01
+- [arXiv 2607.17598v1 — Progressive Disclosure for Long-Context Agents](./arxiv-2607-17598v1-progressive-disclosure-long-context.md) — Finds that one level of progressive routing helps agent performance but additional nesting levels do not improve and may reduce accuracy. — `[project]` — abstract/snippet only — informs GP01 — 2026-09-01
+- [HumanLayer — Skill Issue: Harness Engineering for Coding Agents](./humanlayer-skill-issue.md) — Iterative harness-engineering recipe — start minimal, test on representative work, retain only instructions that fix demonstrated failures; skills as reusable knowledge. — `[project]` — abstract/snippet only — informs GP01, GP02, GP07 — 2026-09-01
+- [agents.md — AGENTS.md Open Standard](./agents-md-open-standard.md) — Open standard defining `AGENTS.md` format and conventions, including monorepo nesting rules where the closest `AGENTS.md` to the edited file takes precedence. — `[project]` — abstract/snippet only — informs GP01, GP02 — 2026-09-01
 
 Total: 14 notes (3 substantiated, 11 abstract/snippet only).
 

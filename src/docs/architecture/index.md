@@ -1,7 +1,6 @@
 # Architecture Documents Index
 
-Architecture documents describe system structure, component boundaries, data
-flow, and cross-cutting concerns.
+Architecture documents describe system structure, component boundaries, data flow, and cross-cutting concerns.
 
 ## Parent
 
@@ -9,4 +8,6 @@ flow, and cross-cutting concerns.
 
 ## Architecture documents
 
-_No architecture documents yet. Use [template.md](template.md) to create one._
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| _No architecture documents yet. Use [template.md](template.md) to create one._ |  |  |  |

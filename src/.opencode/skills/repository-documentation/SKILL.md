@@ -78,6 +78,115 @@ filename: `DEC-20260831-01.md` contains `DEC-20260831-01`.
 - Cross-references within documents use relative paths from the document's
   location.
 
+## Index entry formats
+
+Every `index.md` enumerates its content with one of three patterns. Selection
+is by directory role: populated tables for durable document collections,
+bullet lists for directories whose items already carry rich inline metadata,
+and section navigation for top-level indexes that only list sub-areas.
+
+### Pattern selection
+
+- **Populated table** — for directories listing durable documents (decisions,
+  specs, plans, architecture, implementation maps, contracts, archives).
+  Renders well in Markdown viewers; sort/filter-friendly; agent-parseable.
+- **Bullet list** — for directories listing inline metadata per item (KTLO
+  items, literature notes) where the items themselves carry rich tags
+  (`[template]` / `[project]`, retrieval status, principle codes) that do not
+  fit cleanly into table cells.
+- **Section navigation** — for top-level indexes that list sub-areas rather
+  than specific files. Verification only; no row-format rules apply.
+
+### Populated table
+
+The canonical column order is `Title | Description | Status | Date`.
+
+- **Title** is a relative link to the file using the document's title text
+  (e.g. `[GitHub Packages full-template distribution v0.5.0](SPEC-20260903-01.md)`).
+  The Title cell draws from the H1 or, when a more descriptive title is
+  available, from the document's Purpose/Context. The link text should be
+  scannable and identify the document clearly. No `Slug` column; the link
+  itself carries the path.
+- **Description** is 1–2 sentences (≤40 tokens) sourced from the linked
+  file's Purpose, Description, or Context section. It is the document's
+  summary, not the stable ID.
+- **Status** matches the valid values for the document's type (see
+  `## Lifecycle status`).
+- **Date** is the linked file's `Last modified` line in ISO 8601
+  (`YYYY-MM-DD`).
+
+Example (from `docs/specs/index.md`):
+
+```markdown
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| [GitHub Packages full-template distribution v0.5.0](SPEC-20260903-01.md) | Defines v0.5.0 private npm distribution to GitHub Packages and the `init`/`update` lifecycle for the OpenCode Roundhouse template. | Active | 2026-09-03 |
+```
+
+### Bullet list
+
+The canonical shape separates fields with em-dashes:
+
+```markdown
+- [<Title>](<file>.md) — <1–2 sentence description> — `<metadata>` — <YYYY-MM-DD>
+```
+
+- **Title** is a relative link to the file. Reference-style indexes
+  (literature notes, external sources) may use a curated "Publication —
+  Title" format in the link text for scannability, even when the linked
+  note's H1 uses a different format like "Source Note: Title (Author)". The
+  curated format must still uniquely identify each source.
+- **Description** is 1–2 sentences (≤40 tokens) sourced from the linked
+  file's first paragraph or purpose section.
+- **Metadata** is one or more backtick-quoted tags preserved from the item's
+  existing inline metadata (e.g. `` `[template]` ``, `` `[project]` ``,
+  retrieval status, principle codes). Multiple metadata fields are joined
+  with em-dashes.
+- **Date** is the linked file's last-modified or retrieval date in ISO 8601.
+
+Example (from `references/index.md`):
+
+```markdown
+- [AI Hero — A Complete Guide to AGENTS.md](./aihero-complete-guide-to-agents-md.md) — Synthesizes instruction-budget, progressive-disclosure, and context-staleness arguments for minimal always-loaded `AGENTS.md` files. — `[template]` — retrieved (full) — informs GP01, GP02, GP07 — 2026-08-30
+```
+
+Example (from `ktlo/index.md`):
+
+```markdown
+- [Coding standards](./KTLO-20260829-01.md) — Placeholder KTLO enumerating code-style and naming conventions for template consumers; awaits substantive content from the template repo. — `[template]` — 2026-08-29
+```
+
+### Empty placeholder
+
+A directory whose durable documents have not yet been authored renders as
+the canonical table header plus a single italicized row that points at the
+area's `template.md`:
+
+```markdown
+| Title | Description | Status | Date |
+|-------|-------------|--------|------|
+| _No <items> yet. Use [template.md](template.md) to create one._ |  |  |  |
+```
+
+The italicized row occupies the Title cell only; the remaining cells are
+empty. The wording adapts to the directory's document type ("No
+architecture documents yet.", "No decisions yet.", "No KTLO items yet.").
+
+### Section navigation
+
+Top-level indexes that only point to sub-areas (e.g. `docs/index.md`,
+`src/docs/index.md`) use a simple bullet list where each bullet links to a
+child directory's `index.md` and carries a short description of the
+sub-area. No column rules apply; the bullet is verified for link resolution
+and parent-link presence only.
+
+Example (from `src/docs/index.md`):
+
+```markdown
+- [Architecture](architecture/index.md) — System architecture and design.
+- [Decisions](decisions/index.md) — Decision records and rationale.
+```
+
 ## Archive rules
 
 - Terminal plans (status: Completed, Abandoned) and terminal specs (status:
