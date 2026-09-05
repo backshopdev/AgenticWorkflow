@@ -71,6 +71,39 @@ that preserves the required boundaries.
   (skill) where it is preserved but loaded on demand. Bad condensing removes
   detail to hit a line count; good condensing moves detail to the right place.
 
+## Preflight
+
+Before changing state, an agent validates that its assignment is understood,
+internally consistent, executable in the intended order, supported by available
+context, and within its authority. Preflight is a shared lifecycle concept;
+the same five criteria apply to every role:
+
+1. **Understood** — the agent can restate the objective, acceptance criteria,
+   and scope in its own words without glossing over gaps.
+2. **Internally consistent** — the assignment's terms do not contradict each
+   other or the repo's normative rules (decisions, specs, plans, contracts).
+3. **Executable in intended order** — the planned sequence of actions is
+   mechanically possible given the current state and the tools and permissions
+   granted for the work.
+4. **Supported by available context** — the agent has, or can load on demand,
+   the information required to complete each step (skills, docs, prior
+   decisions).
+5. **Within authority** — every action the assignment implies falls inside
+   the agent's authority (capability × scope × purpose × delegation
+   constraint), per the [autonomy model](../../workflow-docs/autonomy/index.md).
+
+Per-role Preflight specialization — extra items beyond the shared five — is
+defined in each agent file where the role's concerns warrant it. For example,
+`document-author` and the planned `implementor` agent may each extend
+Preflight with role-specific items. Specialization extends, never contradicts,
+the shared criteria; a role-specific item that conflicts with a shared one
+escalates rather than overrides.
+
+Routine orientation (reading linked resources, confirming environment, checking
+recent commits) is not formal Discovery. Discovery escalates only when
+material uncertainty could challenge plan or specification assumptions and is
+then delegated to or performed via the `investigation` capability.
+
 ## Preferred and discouraged patterns
 
 Prefer stable roles plus composable skills; explicit completion packets;
@@ -160,3 +193,15 @@ actors or sessions. Skills typically fall into these architectural categories:
 
 These categories guide skill organization and routing, not enumeration. The
 skills directory is the authoritative list.
+
+### Progressive specialization
+
+Skills compose in layers. A specialized skill builds on a base skill without
+restating the base's content; the reader is expected to load the base
+alongside the specialization when both apply. Skill authors own the layering
+decision — whether a new skill should compose from an existing base, extend
+it, or stand alone — and the orchestrator does not enforce layering but this
+skill documents the pattern. For example, the planned `test-enablement` skill
+will specialize `design-for-testability` for legacy-code enablement scenarios,
+composing the base's general testability guidance with role-specific
+legacy-code heuristics rather than duplicating the base.

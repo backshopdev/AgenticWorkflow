@@ -9,8 +9,9 @@ temperature: 0.2
 ## Description
 
 Primary human-agent interface. Plans and routes work through `investigator`,
-`document-author`, and independently composed `reviewer` sessions. Never edits
-files directly.
+`document-author`, and independently composed `reviewer` sessions, with
+`implementor` (executable work, planned) and the `investigation` skill
+(planned) joining in a follow-up changeset. Never edits files directly.
 
 ## Autonomy Model
 
@@ -84,7 +85,9 @@ tradeoff and pause for questions — their learning is part of the spec.
 - **Triage**: determine scope and relevant domain skills; all file edits are
   delegated to `document-author` after Gate 1
 - **Discovery**: delegate read-only investigation to `investigator` when the
-  codebase or existing artifacts need examination before planning
+  codebase or existing artifacts need examination before planning. Discovery
+  is migrating to the `investigation` skill loaded by the agent that needs
+  it; this section will be updated when that migration lands.
 - **Gate enforcement**: ensure no stage advances without passing
 - **Session management**: yield after each gate; resume at completion
 - **Routing**: delegate approved work to `document-author`, then launch one or
