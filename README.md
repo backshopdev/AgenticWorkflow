@@ -74,7 +74,7 @@ To use this workflow in your own repository:
 
 What you get:
 
-- Four agent roles (orchestrator, investigator, document-author, reviewer) configured in `opencode.json` with prompt files in `.opencode/agents/`
+- Four agent roles (orchestrator, document-author, implementor, reviewer) configured in `opencode.json` with prompt files in `.opencode/agents/`
 - Skills for planning, commit conventions, peer review, security, and domain-specific authoring
 - A structured docs layout (`docs/decisions/`, `docs/specs/`, `docs/plans/`, `docs/architecture/`, `docs/contracts/`, `docs/implementation-maps/`)
 - Markdown validation via `markdownlint-cli2` (config not included; adopters provide their own) and a docs-check script
@@ -93,7 +93,7 @@ work approval → parallel @reviewer sessions → human triage → commit gate
 Four agent roles with distinct authority:
 
 - **Orchestrator** — the human interface; runs Socratic planning, enforces gates, delegates work, composes review perspectives from skills, consolidates findings, and manages commit approval. Never edits files.
-- **Investigator** — investigates the current state of the codebase and documentation; reads files, searches code, runs read-only git commands, and searches the web for reference material. Cannot edit files or delegate tasks.
+- **Implementor** — implements executable software changes (code, tests, configuration) in isolated context; applies a test-first default for behavioral changes, loads implementation expertise through skills, runs objective checks, and returns a completion packet. Accepted human or reviewer changes return here; the plan stays approved unless the human explicitly reopens it. Investigation of material uncertainty is performed in-session via the `investigation` skill, not by a separate agent.
 - **document-author** — implements the approved plan in isolated context; loads relevant skills, runs objective checks, and returns a completion packet. Accepted human or reviewer changes return here; the plan stays approved unless the human explicitly reopens it.
 - **Reviewer** — independent read-only sessions in parallel, each loading `peer` plus a domain skill (`harness`, `literature-note`, or `opencode-configuration`); `security` joins when changes touch sensitive areas. The orchestrator presents findings to the human, who triages and may dismiss any — findings are inputs, not verdicts.
 

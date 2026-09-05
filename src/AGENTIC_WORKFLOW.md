@@ -13,19 +13,20 @@ interviews, drafts authoring briefs, delegates work to subagents, presents
 review findings to the human, and manages the commit gate. It never edits files
 directly. See `.opencode/agents/orchestrator.md` for the full protocol.
 
-### 2. Investigator (subagent)
-
-The investigator agent investigates the current state of the codebase and
-documentation. It reads files, searches code, runs read-only git commands, and
-searches the web. It cannot edit files, delegate tasks, or fetch URLs. It
-returns structured findings to the orchestrator.
-
-### 3. document-author (subagent)
+### 2. document-author (subagent)
 
 The document-author agent implements the approved plan. It loads domain skills,
 creates and edits documentation files, runs validation checks, and returns a
 completion packet. It cannot delegate tasks. See
 `.opencode/agents/document-author.md` for the full contract.
+
+### 3. implementor (subagent)
+
+The implementor agent implements executable software changes — code, tests,
+configuration files — in an independent context. It loads implementation
+expertise through skills, applies a test-first default for behavioral
+changes, and returns a completion packet. It cannot delegate tasks. See
+`.opencode/agents/implementor.md` for the full contract.
 
 ### 4. Reviewer (subagent)
 
@@ -95,14 +96,16 @@ phase at any time. This decision is final and should be respected.
 
 ## Investigation Workflow
 
-The orchestrator delegates investigation when the current state of the codebase is
-unclear, existing documentation needs assessment, or reference material is
-needed. The investigator agent reads relevant files, searches for patterns, runs
-read-only git commands, searches the web if needed, and returns a structured
-findings report containing scope, purpose, findings, recommendations, and open
-questions. The orchestrator uses these findings to inform planning, skill
-selection, and task routing. Findings are advisory and do not authorize
-implementation.
+Material uncertainty that could expand, invalidate, or fundamentally alter the
+approved plan or specification triggers formal Discovery. The agent that needs
+the investigation (orchestrator during planning, `implementor` or
+`document-author` during execution) loads the `investigation` skill within the
+current session. The skill enforces read-only discipline (no file edits, no task
+delegation, no webfetch, read-only git commands only) and returns a Discovery
+Request containing Unknown, Why it matters, Potential impact on plan/spec
+assumptions, and Proposed investigation. Findings return upstream for
+reassessment and may reopen or revise the approved plan. Routine exploration
+within approved assumptions does not require the skill.
 
 ## Routing Table
 

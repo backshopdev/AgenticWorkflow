@@ -9,7 +9,7 @@ document authoring, independent review, and publication.
 2. Describe the documentation goal.
 3. The orchestrator conducts a Socratic interview and drafts an authoring brief.
 4. Approve the plan (Gate 1).
-5. The orchestrator delegates to `investigator`, `document-author`, and `reviewer`.
+5. The orchestrator delegates to `document-author`, `implementor`, and `reviewer`, loading the `investigation` skill when material uncertainty arises.
 6. Inspect authored files and triage review findings.
 7. Approve the commit message and confirm the commit.
 

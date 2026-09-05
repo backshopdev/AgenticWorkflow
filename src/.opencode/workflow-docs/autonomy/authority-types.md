@@ -38,13 +38,22 @@ working context.
 | --- | --- | --- |
 | Orchestrator | Free | Must serve planning or synthesis purpose |
 | Subagent (document-author) | URLs in task handoff | URLs not in task require human approval |
+| Subagent (implementor) | URLs in task handoff | URLs not in task require human approval |
 | Reviewer | URLs in task handoff | Read-only; no web fetch beyond supplied context |
-| Investigator | Denied | Configuration-level deny; no web fetch authority |
 
-**Note:** Read-only agents (investigator and reviewer) have additional
-configuration-level restrictions beyond the standard subagent constraints.
-Investigator has `webfetch: deny`; reviewer has `webfetch: ask` but operates
-under read-only standing authority.
+**Note:** Read-only agents (reviewer and any agent currently performing an
+investigation via the `investigation` skill) have additional configuration-
+level restrictions beyond the standard subagent constraints. The
+`investigation` skill's read-only discipline is prose-only, not technically
+enforced by the calling agent's permission configuration. The calling
+agent's standing config provides baseline restrictions (e.g., the
+orchestrator's `bash: deny` baseline, or the implementor's `edit: "allow"`
+standing authority), but loading the investigation skill does not tighten
+those permissions. Enforcement relies on the agent's self-discipline,
+peer review, and the orchestrator's gate discipline. Any persistent side
+effects produced during an investigation must be surfaced in the
+completion packet under `ATTENTION-FLAGS`. Reviewer has `webfetch: ask`
+but operates under read-only standing authority.
 
 ### Content search
 

@@ -92,16 +92,58 @@ High-level constraints:
 Return in context; do not write the packet to disk.
 
 ```text
-DOCUMENT-AUTHOR COMPLETION PACKET
-task: <one line>
-files-changed:
-  - <path> (add|edit|delete) — <purpose>
-attention-flags: <review focus or none>
-assumptions/open-questions: <decisions under uncertainty or none>
-verify-status: <exact checks and results>
-human-inspect:
-  - <path>
-next: <ready-for-human-review | blocked-on-plan-clarity>
+SUMMARY
+<one-paragraph description of what was completed and resulting behavior/state>
+
+FILES-CHANGED
+<only files changed by the agent as part of the current authorized task.
+Do NOT include pre-existing dirty files that the agent did not modify.>
+
+VERIFICATION
+<concise, auditable evidence of verification performed and outcomes.
+Report evidence, not execution history. Exact commands/output included only
+when unusual, diagnostically important, or useful for reproduction.>
+
+DOCUMENTATION
+<result of documentation-freshness/synchronization check. Include meaningful
+documentation changes or an explicit statement that affected documentation
+was reviewed and required no changes. N/A only when genuinely inapplicable.>
+
+ATTENTION-FLAGS
+<material downstream context that does not belong in another structured field.
+Examples: pre-existing dirty files deliberately left untouched; an especially
+important authorization boundary; a high-risk acceptance criterion deliberately
+rechecked; noteworthy documentation or compatibility concerns.>
+
+ASSUMPTIONS-OPEN-QUESTIONS
+<material assumptions and non-blocking questions. A materially unresolved
+or blocking question prevents completion and must be escalated rather than
+hidden here.>
+
+KTLO
+<potential keep-the-lights-on concerns discovered during the task but outside
+the authorized objective. Provide only enough context to support
+human/orchestrator discussion. Do NOT spend additional tokens investigating
+or designing a KTLO solution. Do NOT automatically create a durable KTLO
+artifact.>
+
+DISCOVERY
+<N/A unless the formal authorized Discovery path occurred during this task.
+When applicable, summarize: areas/code paths investigated; material findings;
+knowledge captured in comments/docs; potential readability/KTLO concerns
+surfaced; effects on plan/spec assumptions. Routine implementation exploration
+is NOT reported as formal Discovery.>
+
+COMPLETION-CHECKLIST
+<state whether the deterministic completion checklist completed successfully.
+Do not reproduce the entire checklist. If something task-specific deserved
+particular attention, record a concise note here.>
+
+HUMAN-INSPECT
+<specific things, if any, that the human collaborator should inspect or decide.>
+
+NEXT
+<recommended workflow next step.>
 ```
 
 Human or accepted reviewer changes return here. The approved plan remains

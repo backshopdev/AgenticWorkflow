@@ -842,18 +842,18 @@ const test16OrchestratorPath = path.join(
   "agents",
   "orchestrator.md"
 );
-const test16InvestigatorPath = path.join(
+const test16ImplementorPath = path.join(
   test16Dir,
   ".opencode",
   "agents",
-  "investigator.md"
+  "implementor.md"
 );
 const test16OpenCodeJsonPath = path.join(test16Dir, "opencode.json");
 const test16StaleMarker = path.join(test16Dir, ".opencode", "__stale_test_marker__.md");
 
 const mode1Sentinel = "# mode-1 sentinel — should be replaced by sync\n";
 fs.writeFileSync(test16OrchestratorPath, mode1Sentinel, "utf-8");
-fs.writeFileSync(test16InvestigatorPath, mode1Sentinel, "utf-8");
+fs.writeFileSync(test16ImplementorPath, mode1Sentinel, "utf-8");
 const originalTest16Json = fs.readFileSync(test16OpenCodeJsonPath, "utf-8");
 fs.writeFileSync(
   test16OpenCodeJsonPath,
@@ -877,12 +877,12 @@ const srcOrchestratorPath = path.join(
   "agents",
   "orchestrator.md"
 );
-const srcInvestigatorPath = path.join(
+const srcImplementorPath = path.join(
   tempRoot,
   "src",
   ".opencode",
   "agents",
-  "investigator.md"
+  "implementor.md"
 );
 
 // Run sync against the customized consumer.
@@ -898,8 +898,8 @@ assert(
   "test16: .opencode/agents/orchestrator.md replaced with src content"
 );
 assert(
-  filesAreEqual(srcInvestigatorPath, test16InvestigatorPath),
-  "test16: .opencode/agents/investigator.md replaced with src content"
+  filesAreEqual(srcImplementorPath, test16ImplementorPath),
+  "test16: .opencode/agents/implementor.md replaced with src content"
 );
 assert(
   fs.readFileSync(test16OpenCodeJsonPath, "utf-8") === originalTest16Json,
