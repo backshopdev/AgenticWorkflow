@@ -3,6 +3,7 @@ scratch/*
 **/scratch/*
 !scratch/.gitkeep
 !**/scratch/.gitkeep
+!src/scratch/README.md
 
 # Dependency caches
 node_modules/
