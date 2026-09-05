@@ -1,6 +1,6 @@
-# OpenCode Roundhouse
+# Roundhouse
 
-A reusable multi-agent [OpenCode](https://opencode.ai) workflow for structured document authoring. The root of this repository uses the template to maintain and evolve itself.
+A reusable multi-agent workflow for [OpenCode](https://opencode.ai) for structured document authoring. The root of this repository uses the template to maintain and evolve itself.
 
 ## Overview
 
