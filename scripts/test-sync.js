@@ -44,7 +44,7 @@ const syncScript = path.join(__dirname, "sync-opencode.js");
 // Tests run in an isolated OS temp directory so the real repo root is never
 // touched. We copy src/ into the fixture and pass --src/--consumer overrides
 // to the sync script so it operates on the fixture, not the live repo.
-const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "opencode-roundhouse-sync-test-"));
+const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "roundhouse-sync-test-"));
 fs.cpSync(path.join(repoRoot, "src"), path.join(tempRoot, "src"), { recursive: true });
 
 // Safety net: ensure tempRoot is removed even if a synchronous throw bypasses

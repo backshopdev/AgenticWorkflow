@@ -1,9 +1,9 @@
 {
-  "name": "@backshopdev/opencode-roundhouse",
+  "name": "@backshopdev/roundhouse",
   "version": "0.5.1",
   "description": "Operational harness for human-agent collaboration workflow",
   "bin": {
-    "opencode-roundhouse": "package/opencode-roundhouse.js"
+    "roundhouse": "package/roundhouse.js"
   },
   "files": [
     "package/",

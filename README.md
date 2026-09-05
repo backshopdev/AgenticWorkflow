@@ -18,7 +18,7 @@ The reusable template lives in `src/`. The root of this repository deploys that 
 ## Installing the private package
 
 This workflow is distributed as the private npm package v0.5.1,
-`@backshopdev/opencode-roundhouse`, through GitHub Packages. The package
+`@backshopdev/roundhouse`, through GitHub Packages. The package
 contains only the runtime files, root `README.md` and `LICENSE` package
 metadata, npm metadata, and the complete
 reusable `src/` template: top-level workflow guidance, consumer-intended
@@ -33,8 +33,8 @@ It has no `postinstall` deployment; npm installation alone never writes to a
 consumer repository. Consumers explicitly run:
 
 ```bash
-npx @backshopdev/opencode-roundhouse init
-npx @backshopdev/opencode-roundhouse update
+npx @backshopdev/roundhouse init
+npx @backshopdev/roundhouse update
 ```
 
 `init` creates missing template files only and reports skipped existing files.
@@ -67,9 +67,9 @@ you need to customize the workflow rather than editing deployed files.
 
 To use this workflow in your own repository:
 
-1. Run `npx @backshopdev/opencode-roundhouse init`.
+1. Run `npx @backshopdev/roundhouse init`.
 2. Customize the seed files and template docs for your project.
-3. Run `npx @backshopdev/opencode-roundhouse update` for a released workflow
+3. Run `npx @backshopdev/roundhouse update` for a released workflow
    version; only managed workflow files are intentional overwrites.
 
 What you get:

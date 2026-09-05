@@ -10,7 +10,7 @@ const { init } = require("../package/deploy-roundhouse");
 
 const root = path.resolve(__dirname, "..");
 const src = path.join(root, "src");
-const cli = path.join(root, "package", "opencode-roundhouse.js");
+const cli = path.join(root, "package", "roundhouse.js");
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
 
 function files(dir, base = dir) {
@@ -56,7 +56,7 @@ try {
   const consumer = fs.mkdtempSync(path.join(os.tmpdir(), "roundhouse-packed-consumer-"));
   try {
     execFileSync(npmCommand, ["install", "--ignore-scripts", "--no-audit", "--no-fund", tarball], { ...npmOptions, cwd: consumer });
-    const installedCli = path.join(consumer, "node_modules", "@backshopdev", "opencode-roundhouse", "package", "opencode-roundhouse.js");
+    const installedCli = path.join(consumer, "node_modules", "@backshopdev", "roundhouse", "package", "roundhouse.js");
     assert(fs.existsSync(installedCli), "packed artifact installs its CLI");
     const packedRun = (...args) => execFileSync(process.execPath, [installedCli, ...args], { cwd: consumer, encoding: "utf8" });
     packedRun("init");

@@ -12,7 +12,7 @@ const cwd = process.cwd();
 const sourceDir = path.join(__dirname, "..", "src");
 const sourceJson = path.join(__dirname, "..", "src", "opencode.json");
 
-console.log(`OpenCode Roundhouse v${packageJson.version}`);
+console.log(`Roundhouse v${packageJson.version}`);
 console.log(`Target: ${cwd}`);
 console.log(`Command: ${command}`);
 console.log(`Template: ${sourceDir}`);
