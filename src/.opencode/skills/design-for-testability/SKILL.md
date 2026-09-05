@@ -142,3 +142,7 @@ tests.
 - **Side effects in getters:** Reading a property changes state.
 - **Time-dependent logic:** `new Date()` scattered throughout the code.
 - **Random behavior:** `Math.random()` in business logic.
+
+## Specialization
+
+For legacy-code enablement scenarios where current structure blocks normal testing techniques, see the `test-enablement` skill. It specializes this skill's guidance for Feathers-style seams (characterization tests, dependency breaking, sprout and wrap) and is loaded only when normal testing techniques are insufficient.

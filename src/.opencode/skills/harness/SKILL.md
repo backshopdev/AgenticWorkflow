@@ -205,3 +205,12 @@ skill documents the pattern. For example, the planned `test-enablement` skill
 will specialize `design-for-testability` for legacy-code enablement scenarios,
 composing the base's general testability guidance with role-specific
 legacy-code heuristics rather than duplicating the base.
+
+### Layering example
+
+The following example illustrates the layering pattern:
+
+- `design-for-testability` (base): foundational testability guidance — constructor injection, replaceable collaborators, pure functions, deterministic behavior, characterization tests, dependency breaking, sprout and wrap.
+- `test-enablement` (specialization): legacy-code enablement when current structure blocks normal testing — explicit ordering (modern techniques → legacy seams → escalate), Feathers-style seams as transitional scaffolding, warning signs for misuse.
+
+The specialized skill loads the base skill's content by reference, not by duplication. A reader who needs the foundational guidance loads `design-for-testability`; a reader who needs the legacy-code enablement specifics loads `test-enablement` which composes from the base.

@@ -42,6 +42,8 @@ files by default.
 | Conducting a review | `peer` skill (+ domain skill) | Apply the peer review lens and domain expertise |
 | Changes affect permissions, secrets, or auth | `security` skill | Apply the security review threat model |
 | Decomposing work into a plan | `planning-structure` skill | Apply planning structure requirements and acceptance criteria |
+| Working with testability, constructor injection, or characterization tests | `design-for-testability` skill | Load foundational testability guidance |
+| Enabling tests on legacy code where current structure blocks normal testing | `test-enablement` skill | Load legacy-code enablement techniques (Feathers-style seams) |
 | Understanding authority and autonomy | [`src/.opencode/workflow-docs/autonomy/index.md`](src/.opencode/workflow-docs/autonomy/index.md) | Learn the autonomy model, authority types, escalation protocol, and session lifetime rules |
 
 ## OpenCode Synchronization
